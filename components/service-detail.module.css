@@ -1,0 +1,333 @@
+.servicesDetailsPage {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+  }
+  
+  .servicesDetailsContent {
+    margin-right: 30px;
+  }
+  
+  .servicesDetailsImg1 {
+    margin-bottom: 30px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .servicesDetailsTextBox1 {
+    margin-bottom: 40px;
+  }
+  
+  .servicesDetailsTextBox1 .title h2 {
+    font-size: 30px;
+    line-height: 40px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .servicesDetailsTextBox1 .text1 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    line-height: 26px;
+  }
+  
+  .servicesDetailsTextBox1 .text2 {
+    font-size: 16px;
+    line-height: 26px;
+  }
+  
+  .servicesDetailsTextBox2 {
+    margin-bottom: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .servicesDetailsTextBox2Img {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  .servicesDetailsTextBox2Content {
+    padding-left: 20px;
+  }
+  
+  .servicesDetailsTextBox2Content .title h2 {
+    font-size: 24px;
+    line-height: 34px;
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+  
+  .servicesDetailsTextBox2Content .text p {
+    margin-bottom: 20px;
+  }
+  
+  .servicesDetailsTextBox2Content ul {
+    margin-bottom: 0;
+  }
+  
+  .servicesDetailsTextBox2Content ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .servicesDetailsTextBox2Content ul li .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    background-color: #003087;
+    color: #fff;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .servicesDetailsTextBox3 {
+    margin-bottom: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .servicesDetailsTextBox3 p {
+    margin-bottom: 20px;
+  }
+  
+  .servicesDetailsTextBox3 ul li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .servicesDetailsTextBox3 ul li .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    width: 20px;
+    background-color: #003087;
+    color: #fff;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .servicesDetailsTabBox {
+    margin-bottom: 40px;
+  }
+  
+  .servicesDetailsTab .servicesDetailsTabButton {
+    margin-bottom: 20px;
+  }
+  
+  .servicesDetailsTab .servicesDetailsTabButton ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .servicesDetailsTab .servicesDetailsTabButton ul li {
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px 20px;
+    transition: all 0.3s;
+  }
+  
+  .servicesDetailsTab .servicesDetailsTabButton ul li.activeBtn {
+    background-color: #003087;
+    color: #fff;
+  }
+  
+  .servicesDetailsTab .servicesDetailsTabButton ul li h4 {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .tabsContent .tab {
+    display: none;
+  }
+  
+  .tabsContent .activeTab {
+    display: block;
+  }
+  
+  .qualityMaterialsTabBoxImg,
+  .interiorDesignTabBoxImg,
+  .personalCareTabBoxImg {
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  
+  .qualityMaterialsTabBoxContent,
+  .interiorDesignTabBoxContent,
+  .personalCareTabBoxContent {
+    padding-left: 20px;
+  }
+  
+  .qualityMaterialsTabBoxContent .text1,
+  .interiorDesignTabBoxContent .text1,
+  .personalCareTabBoxContent .text1 {
+    margin-bottom: 15px;
+  }
+  
+  .superSupportTabBoxForm input,
+  .superSupportTabBoxForm textarea {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #e7e7e7;
+    border-radius: 5px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  
+  .superSupportTabBoxForm textarea {
+    height: 150px;
+    padding: 15px 20px;
+    resize: none;
+  }
+  
+  .thmBtn {
+    background-color: #003087;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 5px;
+    transition: all 0.3s;
+  }
+  
+  .thmBtn:hover {
+    background-color: #002266;
+  }
+  
+  .servicesDetailsSidebar {
+    padding-left: 20px;
+  }
+  
+  .servicesDetailsSidebarSingle {
+    margin-bottom: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .servicesDetailsSidebarSingle .title h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  
+  .servicesDetailsSearch .servicesDetailsSearchForm {
+    position: relative;
+  }
+  
+  .servicesDetailsSearch .servicesDetailsSearchForm input {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #e7e7e7;
+    border-radius: 5px;
+    padding: 0 20px;
+    font-size: 14px;
+  }
+  
+  .servicesDetailsSearch .servicesDetailsSearchForm button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 50px;
+    width: 50px;
+    background-color: #003087;
+    color: #fff;
+    border-radius: 0 5px 5px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .servicesDetailsCategoryList li {
+    margin-bottom: 10px;
+  }
+  
+  .servicesDetailsCategoryList li a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    color: #333;
+    font-weight: 500;
+    transition: all 0.3s;
+  }
+  
+  .servicesDetailsCategoryList li a:hover,
+  .servicesDetailsCategoryList li a.active {
+    background-color: #003087;
+    color: #fff;
+  }
+  
+  .servicesDetailsButtonBox .btnOne {
+    margin-bottom: 15px;
+  }
+  
+  .servicesDetailsButtonBox .btnOne a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #003087;
+    color: #fff;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 5px;
+    transition: all 0.3s;
+  }
+  
+  .servicesDetailsButtonBox .btnOne a:hover {
+    background-color: #002266;
+  }
+  
+  .servicesDetailsButtonBox .btnOneTwo a {
+    background-color: #ff5e14;
+  }
+  
+  .servicesDetailsButtonBox .btnOneTwo a:hover {
+    background-color: #e04e00;
+  }
+  
+  .servicesDetailsContactBox p {
+    margin-bottom: 20px;
+  }
+  
+  .servicesDetailsContactBox .number {
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px 20px;
+  }
+  
+  .servicesDetailsContactBox .number a {
+    display: flex;
+    align-items: center;
+    color: #003087;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  
+  @media (max-width: 991px) {
+    .servicesDetailsContent {
+      margin-right: 0;
+      margin-bottom: 40px;
+    }
+  
+    .servicesDetailsSidebar {
+      padding-left: 0;
+    }
+  }
+  

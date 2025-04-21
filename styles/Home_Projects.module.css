@@ -1,0 +1,190 @@
+/* CSS module for projects_header */
+
+/* Basic structure */
+.projects_header {
+  text-size-adjust: 100%;
+  --swiper-theme-color: #007aff;
+  --swiper-navigation-size: 44px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  font-family: "Poppins", "Arial", sans-serif;
+  font-size: 16px;
+  line-height: 1.625;
+  color: #787878;
+  font-weight: 400;
+  -webkit-locale: auto;
+  white-space: normal;
+  box-sizing: inherit;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 1140px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 70px;
+  transition-property: opacity, transform;
+  transition-duration: 1s;
+  transition-timing-function: ease;
+  opacity: 1;
+  transform: translateZ(0);
+}
+
+.projects_header_heading {
+  text-size-adjust: 100%;
+  --swiper-theme-color: #007aff;
+  --swiper-navigation-size: 44px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  -webkit-locale: auto;
+  white-space: normal;
+  box-sizing: inherit;
+  font-family: "Gilroy", "Arial", sans-serif;
+  line-height: 1.25;
+  color: #000000;
+  font-weight: 700;
+  font-size: 48px;
+  margin: 0 0 16px;
+  margin-bottom: 0;
+  margin-right: auto;
+}
+
+/* CSS Module for project_filters */
+
+.project_filters {
+  text-size-adjust: 100%;
+  --swiper-theme-color: #007aff;
+  --swiper-navigation-size: 44px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  font-family: "Poppins", "Arial", sans-serif;
+  font-size: 16px;
+  line-height: 1.625;
+  color: #787878;
+  font-weight: 400;
+  -webkit-locale: auto;
+  white-space: normal;
+  box-sizing: inherit;
+  flex-shrink: 0;
+  margin-bottom: 0;
+  /* margin-left: 20px; */
+}
+
+.projects_more {
+  text-size-adjust: 100%;
+  --swiper-theme-color: #007aff;
+  --swiper-navigation-size: 44px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  -webkit-locale: auto;
+  white-space: normal;
+  box-sizing: inherit;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-family: "Gilroy", "Arial", sans-serif;
+  font-size: 16px;
+  line-height: 1.3125;
+  color: #a1a1a1;
+  font-weight: 600;
+  transition: color 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 45px;
+}
+
+.projects_more:hover {
+  color: black;
+}
+
+.filter_item {
+  text-size-adjust: 100%;
+  --swiper-theme-color: #007aff;
+  --swiper-navigation-size: 44px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  -webkit-locale: auto;
+  white-space: normal;
+  box-sizing: inherit;
+  padding: 0;
+  font-family: "Poppins", "Arial", sans-serif;
+  font-size: 16px;
+  line-height: 1.3125;
+  font-weight: 600;
+  text-transform: capitalize;
+  background-color: transparent;
+  border: none;
+  appearance: none;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-right: 28px;
+  color: black;
+}
+
+.filter_item:hover {
+  color: var(--bs-blue);
+}
+
+/* CSS Module for Project Inner Container */
+
+.projectInnerContainer {
+  text-size-adjust: 100%;
+  --swiper-theme-color: #007aff;
+  --swiper-navigation-size: 44px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  font-family: "Poppins", "Arial", sans-serif;
+  font-size: 16px;
+  line-height: 1.625;
+  color: #787878;
+  font-weight: 400;
+  -webkit-locale: auto;
+  white-space: normal;
+  box-sizing: inherit;
+  width: 100%;
+
+  /* justify-content: center; */
+  max-width: 1130px;
+  transition-property: opacity, transform;
+  transition-duration: 1s;
+  transition-timing-function: ease;
+  opacity: 1;
+  height: 425px;
+  transform: translateZ(0);
+  display: flex;
+  align-items: center;
+}
+
+/* CSS Module for Slider Inner Container */
+
+.projectSliderContainer {
+  height: 100%;
+  text-size-adjust: 100%;
+  --swiper-theme-color: #007aff;
+  --swiper-navigation-size: 44px;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  font-family: "Poppins", "Arial", sans-serif;
+  font-size: 16px;
+  line-height: 1.625;
+  color: #787878;
+  font-weight: 400;
+  -webkit-locale: auto;
+  white-space: normal;
+  box-sizing: inherit;
+  /* margin-left: 20px;
+    margin-right: 20px; */
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+}
+
+.active_filter {
+  color: var(--bs-blue);
+  /* Optional: Change text color for better visibility */
+}
+

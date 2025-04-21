@@ -1,0 +1,72 @@
+.review_swiper_container {
+  text-size-adjust: 100%; /* Ensures the text size adjusts correctly on mobile devices */
+  --swiper-theme-color: #007aff; /* Custom property for Swiper theme color */
+  --swiper-navigation-size: 44px; /* Custom property for Swiper navigation size */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* Removes tap highlight color on mobile devices */
+  -webkit-font-smoothing: antialiased; /* Ensures smooth font rendering in WebKit browsers */
+  font-family: "Poppins", "Arial", sans-serif; /* Sets the font family */
+  font-size: 16px; /* Sets the default font size */
+  line-height: 1.625; /* Controls the line height for text */
+  color: #787878; /* Sets the text color to gray */
+  font-weight: 400; /* Normal font weight */
+  -webkit-locale: auto; /* Automatically detects the locale in WebKit browsers */
+  white-space: normal; /* Allows text to wrap normally */
+  box-sizing: inherit; /* Inherits box-sizing from the parent element */
+
+  /* Transition properties for smooth animation */
+  transition-property: opacity, transform; /* Specifies which properties will be animated */
+  transition-duration: 1s; /* Duration of the animation */
+  transition-timing-function: ease; /* Specifies the timing function for the transition */
+
+  /* Initial state for opacity and transform */
+  opacity: 1; /* Ensures the container is fully visible */
+  transform: translateZ(0); /* Forces the container to use the GPU for rendering, improving performance */
+}
+
+.review_outer_container {
+  text-size-adjust: 100%; /* Ensures text size is properly adjusted on mobile */
+  --swiper-theme-color: #007aff; /* Custom property for Swiper theme color */
+  --swiper-navigation-size: 44px; /* Custom property for Swiper navigation size */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* Removes the tap highlight color on mobile */
+  -webkit-font-smoothing: antialiased; /* Ensures smoother font rendering in WebKit browsers */
+  font-family: "Poppins", "Arial", sans-serif; /* Specifies the font family for text */
+  font-size: 16px; /* Sets the font size for text */
+  line-height: 1.625; /* Controls the line height for better readability */
+  color: #787878; /* Sets the text color to a grayish shade */
+  font-weight: 400; /* Normal font weight */
+  -webkit-locale: auto; /* Automatically detects the locale in WebKit browsers */
+  white-space: normal; /* Allows the text to wrap naturally */
+  box-sizing: inherit; /* Inherits box-sizing from the parent element */
+  width: 100%; /* Ensures the container takes up the full width of its parent */
+  padding-right: 15px; /* Adds padding to the right side of the container */
+  padding-left: 15px; /* Adds padding to the left side of the container */
+  margin-right: auto; /* Centers the container horizontally by automatically adjusting the right margin */
+  margin-left: auto; /* Centers the container horizontally by automatically adjusting the left margin */
+  max-width: 1160px; /* Limits the container's width to 960px, ensuring it doesn't stretch too wide on larger screens */
+  height: 400px;
+}
+
+.review_inner_container {
+  text-size-adjust: 100%; /* Ensures text size adjusts correctly on mobile devices */
+  --swiper-theme-color: #007aff; /* Custom property for Swiper theme color */
+  --swiper-navigation-size: 44px; /* Custom property for Swiper navigation size */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* Removes tap highlight color on mobile */
+  -webkit-font-smoothing: antialiased; /* Ensures smooth font rendering in WebKit browsers */
+  font-family: "Poppins", "Arial", sans-serif; /* Specifies the font family for text */
+  font-size: 16px; /* Sets the default font size */
+  line-height: 1.625; /* Sets the line height to improve text readability */
+  color: #787878; /* Sets the text color to a light gray */
+  font-weight: 400; /* Normal font weight */
+  -webkit-locale: auto; /* Automatically detects the locale (language/region) in WebKit browsers */
+  white-space: normal; /* Allows text to wrap normally */
+  box-sizing: inherit; /* Inherits box-sizing from the parent element */
+  margin-left: auto; /* Centers the container horizontally by setting the left margin to auto */
+  margin-right: auto; /* Centers the container horizontally by setting the right margin to auto */
+  position: relative; /* Establishes a positioning context for child elements */
+  overflow: hidden; /* Prevents content from overflowing the container */
+  list-style: none; /* Removes any default list styling (e.g., bullet points) */
+  padding: 0; /* Removes any default padding */
+  z-index: 1; /* Ensures that this container is positioned above others if necessary */
+  height: 100%;
+}
+
