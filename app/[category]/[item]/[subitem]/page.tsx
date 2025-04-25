@@ -7,6 +7,10 @@ import ServiceDetailBody from "@/components/service-detail-body"
 import { unstable_noStore } from "next/cache"
 import type { ServiceDetail } from "@/types/service"
 import { serializeMongoData } from "@/lib/serialize-mongo"
+// First, add the import for IndustryDetailBody at the top of the file
+import IndustryDetailBody from "@/components/IndustryDetailBody"
+// First, add the import for DesignTrendsContainer at the top of the file
+import { DesignTrendsContainer } from "@/components/design-trends/design-trends-container"
 
 interface PageProps {
   params: {
@@ -89,6 +93,7 @@ async function getSubitem(categorySlug: string, itemSlug: string, subitemSlug: s
   }
 }
 
+// Then, modify the SubitemPage component to conditionally render IndustryDetailBody for the 'industries' category
 export default async function SubitemPage({ params }: PageProps) {
   const result = await getSubitem(params.category, params.item, params.subitem)
 
@@ -97,6 +102,106 @@ export default async function SubitemPage({ params }: PageProps) {
   }
 
   const { category, item, subitem } = result
+
+  // Check if this is an industry category
+  const isIndustryCategory = params.category === "industries"
+
+  // Check if this is a design trends category
+  const isDesignTrendsCategory = params.category === "design-trends"
+
+  if (isDesignTrendsCategory) {
+    // Use static data for design trends instead of fetching from an API
+    try {
+      return (
+        <div className="container mx-auto py-8 px-4">
+          <div className="bg-gray-100 py-4 mb-6">
+            <div className="container mx-auto px-4">
+              <div className="flex items-center gap-2 text-sm text-gray-500">
+                <Link href="/" className="hover:text-gray-700">
+                  Home
+                </Link>
+                <span>/</span>
+                <Link href={`/${params.category}`} className="hover:text-gray-700">
+                  {category.name}
+                </Link>
+                <span>/</span>
+                <Link href={`/${params.category}/${params.item}`} className="hover:text-gray-700">
+                  {item.label}
+                </Link>
+                <span>/</span>
+                <span className="font-medium text-gray-900">{subitem.label}</span>
+              </div>
+            </div>
+          </div>
+
+          <h1 className="text-3xl font-bold mb-6">{subitem.label}</h1>
+
+          <DesignTrendsContainer
+            title={subitem.content?.title || subitem.label}
+            description={subitem.content?.description || "Explore the latest design trends and insights"}
+            // Force the use of fallback data by providing a non-existent endpoint
+            endpoint="/api/non-existent-endpoint"
+            initialCategory="all"
+            maxItems={6}
+            showFilters={true}
+            showLoadMore={true}
+            layout="featured"
+            className="mt-8"
+          />
+        </div>
+      )
+    } catch (error) {
+      console.error("Error rendering DesignTrendsContainer:", error)
+      // Fallback to standard ServiceDetailBody if there's an error
+    }
+  }
+
+  if (isIndustryCategory) {
+    // Map the subitem data to the format expected by IndustryDetailBody
+    const industryData = {
+      id: subitem._id?.toString() || "",
+      title: subitem.label || "",
+      subtitle: subitem.content?.title || subitem.label || "",
+      description: {
+        intro: subitem.content?.description ? [subitem.content.description] : ["No description available"],
+        conclusion: subitem.additionalInfo || "",
+      },
+      industryStatus: subitem.industryStatus || {
+        title: "Industry Status",
+        items: subitem.industryStatusItems || [],
+      },
+      challenges: subitem.challenges || [],
+      requirements: subitem.requirements || [],
+      solutions: subitem.solutions || [
+        {
+          title: "Solutions",
+          items: subitem.solutionItems || [],
+        },
+      ],
+      benefits: subitem.benefits || [],
+      features: subitem.features || [],
+      faq: subitem.faq || [],
+      heroImage: subitem.coverImage || "/diverse-manufacturing-floor.png",
+      sidebarImage: subitem.sidebarImage || "/modern-business-tri-fold.png",
+    }
+
+    // Handle potential missing data with fallbacks
+    try {
+      return (
+        <IndustryDetailBody
+          data={industryData}
+          type="industry"
+          parentTitle={item.label}
+          parentPath={`/${params.category}/${params.item}`}
+          category={category.name}
+          categoryPath={`/${params.category}`}
+        />
+      )
+    } catch (error) {
+      console.error("Error rendering IndustryDetailBody:", error)
+      // Fallback to standard ServiceDetailBody if there's an error
+    }
+  }
 
   // Map the subitem data directly from the database to the ServiceDetail interface
   const serviceData: ServiceDetail = {
