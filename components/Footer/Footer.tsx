@@ -340,7 +340,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="mt-12 border-t border-white/20 pt-6 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
           {/* Left - Copyright */}
-          <p className="text-sm">© 2025 PrimeLogic. All rights reserved.</p>
+          <p className="text-sm">© 2025 AA Design Studio. All rights reserved.</p>
 
           {/* Center - Powered By */}
           <p className="text-sm">Powered and Maintained by Prime Logic Solutions USA</p>

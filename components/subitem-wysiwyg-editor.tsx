@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/use-toast"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Check, Search, Download, FileText, Phone, Save, Edit, Plus, Minus } from "lucide-react"
+import { Check, Search, Download, FileText, Phone, Save, Edit, Plus, Minus, Bug } from "lucide-react"
 import { serviceCategories } from "@/types/service"
 import styles from "@/components/service-detail.module.css"
 
@@ -25,12 +25,14 @@ interface Category {
   }>
 }
 
+// Updated interface to match the exact database structure
 interface Subitem {
   _id?: string
   label: string
   href: string
   categoryId: string
   itemId: string
+  status?: string
   content?: {
     title?: string
     description?: string
@@ -39,6 +41,7 @@ interface Subitem {
     title?: string
     description?: string
     features?: string[]
+    status?: string
   }
   additionalInfo?: string
   additionalFeatures?: string[]
@@ -60,6 +63,8 @@ interface Subitem {
       content?: string
     }
   }
+  createdAt?: string
+  updatedAt?: string
 }
 
 interface SubitemWysiwygEditorProps {
@@ -67,17 +72,20 @@ interface SubitemWysiwygEditorProps {
   categories: Category[]
 }
 
+// Helper component for labels
+const Label = ({ htmlFor, children }: { htmlFor: string; children: React.ReactNode }) => (
+  <label htmlFor={htmlFor} className="text-sm font-medium">
+    {children}
+  </label>
+)
+
 export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEditorProps) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [showControls, setShowControls] = useState(false)
   const controlsRef = useRef<HTMLDivElement>(null)
   const [dataInitialized, setDataInitialized] = useState(false)
-
-  // Log the received subitem data for debugging
-  useEffect(() => {
-    console.log("SubitemWysiwygEditor received subitem:", subitem)
-  }, [subitem])
+  const [showDebug, setShowDebug] = useState(false)
 
   // Basic form data
   const [formData, setFormData] = useState<{
@@ -85,52 +93,71 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
     href: string
     categoryId: string
     itemId: string
+    status: string
   }>({
     label: "",
     href: "",
     categoryId: categories[0]?._id || "",
     itemId: "",
+    status: "draft",
   })
 
   // Extended content for the service detail
   const [contentData, setContentData] = useState<{
+    title: string
     content: string
     planningTitle: string
     planningDescription: string
     planningFeatures: string[]
+    planningStatus: string
     additionalInfo: string
     additionalFeatures: string[]
     materialsTabTitle: string
     materialsContent: string
+    materialsImage: string
     designTabTitle: string
     designContent: string
+    designImage: string
     careTabTitle: string
     careContent: string
+    careImage: string
     supportTabTitle: string
     supportContent: string
+    supportImage: string
+    coverImage: string
     activeTab: string
   }>({
+    title: "",
     content: "",
-    planningTitle: "Our Planning Process",
+    planningTitle: "",
     planningDescription: "",
     planningFeatures: [],
+    planningStatus: "draft",
     additionalInfo: "",
     additionalFeatures: [],
-    materialsTabTitle: "Quality Materials",
+    materialsTabTitle: "",
     materialsContent: "",
-    designTabTitle: "Interior Design",
+    materialsImage: "/textile-texture-closeups.png",
+    designTabTitle: "",
     designContent: "",
-    careTabTitle: "Personal Care",
+    designImage: "/modern-living-space.png",
+    careTabTitle: "",
     careContent: "",
-    supportTabTitle: "Super Support",
+    careImage: "/self-care-essentials.png",
+    supportTabTitle: "",
     supportContent: "",
+    supportImage: "/customer-support-team.png",
+    coverImage: "/customer-support-team.png",
     activeTab: "materials",
   })
+
+  const [availableItems, setAvailableItems] = useState<Array<{ _id: string; label: string }>>([])
+  const [editingField, setEditingField] = useState<string | null>(null)
 
   // Initialize form data from subitem prop when it's available
   useEffect(() => {
     if (subitem && !dataInitialized) {
-      console.log("Initializing form data from subitem:", subitem)
+      console.log("Initializing form data from subitem")
 
       // Set basic form data
       setFormData({
@@ -138,34 +165,38 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
         href: subitem.href || "",
         categoryId: subitem.categoryId || categories[0]?._id || "",
         itemId: subitem.itemId || "",
+        status: subitem.status || "draft",
       })
 
-      // Set extended content data
+      // Set extended content data - carefully extract all fields from the database structure
       setContentData({
+        title: subitem.content?.title || "",
         content: subitem.content?.description || "",
-        planningTitle: subitem.planningWork?.title || "Our Planning Process",
+        planningTitle: subitem.planningWork?.title || "",
         planningDescription: subitem.planningWork?.description || "",
         planningFeatures: subitem.planningWork?.features || [],
+        planningStatus: subitem.planningWork?.status || "draft",
         additionalInfo: subitem.additionalInfo || "",
         additionalFeatures: subitem.additionalFeatures || [],
-        materialsTabTitle: subitem.tabContent?.materials?.title || "Quality Materials",
+        materialsTabTitle: subitem.tabContent?.materials?.title || "",
         materialsContent: subitem.tabContent?.materials?.content || "",
-        designTabTitle: subitem.tabContent?.design?.title || "Interior Design",
+        materialsImage: subitem.tabContent?.materials?.image || "/textile-texture-closeups.png",
+        designTabTitle: subitem.tabContent?.design?.title || "",
         designContent: subitem.tabContent?.design?.content || "",
-        careTabTitle: subitem.tabContent?.care?.title || "Personal Care",
+        designImage: subitem.tabContent?.design?.image || "/modern-living-space.png",
+        careTabTitle: subitem.tabContent?.care?.title || "",
         careContent: subitem.tabContent?.care?.content || "",
-        supportTabTitle: subitem.tabContent?.support?.title || "Super Support",
+        careImage: subitem.tabContent?.care?.image || "/self-care-essentials.png",
+        supportTabTitle: subitem.tabContent?.support?.title || "",
         supportContent: subitem.tabContent?.support?.content || "",
+        supportImage: subitem.tabContent?.support?.image || "/customer-support-team.png",
+        coverImage: subitem.coverImage || "/customer-support-team.png",
         activeTab: "materials",
       })
 
       setDataInitialized(true)
-      console.log("Data initialization complete")
     }
   }, [subitem, categories, dataInitialized])
-
-  const [availableItems, setAvailableItems] = useState<Array<{ _id: string; label: string }>>([])
-  const [editingField, setEditingField] = useState<string | null>(null)
 
   // Update available items when category changes
   useEffect(() => {
@@ -219,34 +250,21 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
 
   const handleItemChange = (value: string) => {
     setFormData((prev) => ({ ...prev, itemId: value }))
-
-    // Update href if it's empty or when changing item
-    if (!formData.href || formData.href.startsWith("/")) {
-      const selectedCategory = categories.find((cat) => cat._id === formData.categoryId)
-      const selectedItem = selectedCategory?.items.find((item) => item._id === value)
-
-      if (selectedCategory && selectedItem) {
-        const slug = formData.label
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "")
-        const itemSlug = selectedItem.href.split("/").pop() || ""
-        setFormData((prev) => ({
-          ...prev,
-          href: `/${selectedCategory.slug}/${itemSlug}/${slug}`,
-        }))
-      }
-    }
+    updateHrefFromSelection(value, formData.label)
   }
 
   const handleLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const label = e.target.value
     setFormData((prev) => ({ ...prev, label }))
+    updateHrefFromSelection(formData.itemId, label)
+  }
 
-    // Auto-generate href if it's empty
+  // Helper function to update href based on category, item and label
+  const updateHrefFromSelection = (itemId: string, label: string) => {
+    // Auto-generate href if it's empty or starts with /
     if (!formData.href || formData.href.startsWith("/")) {
       const selectedCategory = categories.find((cat) => cat._id === formData.categoryId)
-      const selectedItem = selectedCategory?.items.find((item) => item._id === formData.itemId)
+      const selectedItem = selectedCategory?.items.find((item) => item._id === itemId)
 
       if (selectedCategory && selectedItem) {
         const slug = label
@@ -306,19 +324,21 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
 
       const method = subitem?._id ? "PUT" : "POST"
 
-      // Log the data being sent to the server
+      // Prepare data in the exact format expected by the database
       const submitData = {
         label: formData.label,
         href: formData.href,
+        status: formData.status,
         // Include extended content data
         content: {
-          title: formData.label,
+          title: contentData.title || formData.label,
           description: contentData.content,
         },
         planningWork: {
           title: contentData.planningTitle,
           description: contentData.planningDescription,
           features: contentData.planningFeatures,
+          status: contentData.planningStatus,
         },
         additionalInfo: contentData.additionalInfo,
         additionalFeatures: contentData.additionalFeatures,
@@ -326,23 +346,26 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
           materials: {
             title: contentData.materialsTabTitle,
             content: contentData.materialsContent,
+            image: contentData.materialsImage,
           },
           design: {
             title: contentData.designTabTitle,
             content: contentData.designContent,
+            image: contentData.designImage,
           },
           care: {
             title: contentData.careTabTitle,
             content: contentData.careContent,
+            image: contentData.careImage,
           },
           support: {
             title: contentData.supportTabTitle,
             content: contentData.supportContent,
+            image: contentData.supportImage,
           },
         },
+        coverImage: contentData.coverImage,
       }
-
-      console.log("Submitting data:", submitData)
 
       const response = await fetch(url, {
         method,
@@ -353,7 +376,9 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
       })
 
       if (!response.ok) {
-        throw new Error("Failed to save subitem")
+        const errorData = await response.json().catch(() => ({}))
+        console.error("Server error response:", errorData)
+        throw new Error(`Failed to save subitem: ${response.status} ${response.statusText}`)
       }
 
       toast({
@@ -369,7 +394,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
       console.error("Error saving subitem:", error)
       toast({
         title: "Error",
-        description: "There was a problem saving the subitem. Please try again.",
+        description: `There was a problem saving the subitem: ${error instanceof Error ? error.message : "Unknown error"}`,
         variant: "destructive",
       })
     } finally {
@@ -377,7 +402,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
     }
   }
 
-  // Editable component for inline editing
+  // Editable component for inline editing - FIXED to avoid invalid HTML nesting
   const EditableField = ({
     value,
     field,
@@ -391,16 +416,21 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
   }) => {
     const [editValue, setEditValue] = useState(value)
 
+    // Update edit value when the source value changes
+    useEffect(() => {
+      setEditValue(value)
+    }, [value])
+
     if (editingField === field) {
       return multiline ? (
-        <div className="relative">
+        <span className="relative block">
           <Textarea
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
             className="w-full p-2 border border-blue-400 rounded"
             autoFocus
           />
-          <div className="absolute right-2 bottom-2 flex gap-2">
+          <span className="absolute right-2 bottom-2 flex gap-2">
             <Button
               size="sm"
               variant="outline"
@@ -412,17 +442,17 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
             <Button size="sm" onClick={() => handleEditableChange(field, editValue)} className="bg-blue-600">
               Save
             </Button>
-          </div>
-        </div>
+          </span>
+        </span>
       ) : (
-        <div className="relative">
+        <span className="relative block">
           <Input
             value={editValue}
             onChange={(e) => setEditValue(e.target.value)}
             className="w-full p-2 border border-blue-400 rounded"
             autoFocus
           />
-          <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
+          <span className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-2">
             <Button
               size="sm"
               variant="outline"
@@ -434,27 +464,27 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
             <Button size="sm" onClick={() => handleEditableChange(field, editValue)} className="bg-blue-600">
               Save
             </Button>
-          </div>
-        </div>
+          </span>
+        </span>
       )
     }
 
     return (
-      <div
+      <span
         className={`relative group cursor-pointer ${className}`}
         onClick={() => setEditingField(field)}
         role="button"
         tabIndex={0}
       >
-        {value}
-        <div className="absolute inset-0 bg-blue-500 bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+        {value || <span className="text-gray-400 italic">Click to add content</span>}
+        <span className="absolute inset-0 bg-blue-500 bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
           <Edit className="h-4 w-4 text-blue-600" />
-        </div>
-      </div>
+        </span>
+      </span>
     )
   }
 
-  // Editable list for features
+  // Editable list for features - FIXED to avoid invalid HTML nesting
   const EditableFeatureList = ({
     features,
     field,
@@ -464,49 +494,53 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
   }) => {
     return (
       <ul className="space-y-2">
-        {features.map((feature, index) => (
-          <li key={index} className="flex items-start gap-2">
-            <div className={styles.icon}>
-              <Check size={12} />
-            </div>
-            <div className="flex-1 relative group">
-              {editingField === `${field}-${index}` ? (
-                <div className="flex items-center gap-2">
-                  <Input
-                    value={feature}
-                    onChange={(e) => handleFeatureChange(index, e.target.value, field)}
-                    className="flex-1 p-1 text-sm border border-blue-400 rounded"
-                    autoFocus
-                    onBlur={() => setEditingField(null)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        setEditingField(null)
-                      }
-                    }}
-                  />
-                  <Button
-                    size="sm"
-                    variant="ghost"
-                    onClick={() => removeFeature(index, field)}
-                    className="h-6 w-6 p-0 text-red-500"
+        {features && features.length > 0 ? (
+          features.map((feature, index) => (
+            <li key={index} className="flex items-start gap-2">
+              <span className={styles.icon}>
+                <Check size={12} />
+              </span>
+              <span className="flex-1 relative group">
+                {editingField === `${field}-${index}` ? (
+                  <span className="flex items-center gap-2">
+                    <Input
+                      value={feature}
+                      onChange={(e) => handleFeatureChange(index, e.target.value, field)}
+                      className="flex-1 p-1 text-sm border border-blue-400 rounded"
+                      autoFocus
+                      onBlur={() => setEditingField(null)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          setEditingField(null)
+                        }
+                      }}
+                    />
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => removeFeature(index, field)}
+                      className="h-6 w-6 p-0 text-red-500"
+                    >
+                      <Minus size={14} />
+                    </Button>
+                  </span>
+                ) : (
+                  <span
+                    className="cursor-pointer"
+                    onClick={() => setEditingField(`${field}-${index}`)}
+                    role="button"
+                    tabIndex={0}
                   >
-                    <Minus size={14} />
-                  </Button>
-                </div>
-              ) : (
-                <div
-                  className="cursor-pointer"
-                  onClick={() => setEditingField(`${field}-${index}`)}
-                  role="button"
-                  tabIndex={0}
-                >
-                  {feature}
-                  <div className="absolute inset-0 bg-blue-500 bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                </div>
-              )}
-            </div>
-          </li>
-        ))}
+                    {feature}
+                    <span className="absolute inset-0 bg-blue-500 bg-opacity-10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                  </span>
+                )}
+              </span>
+            </li>
+          ))
+        ) : (
+          <li className="text-gray-400 italic">No features added yet</li>
+        )}
         <li>
           <Button
             size="sm"
@@ -518,6 +552,107 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
           </Button>
         </li>
       </ul>
+    )
+  }
+
+  // Debug panel to show raw data
+  const DebugPanel = () => (
+    <div className="fixed bottom-4 right-4 z-40 bg-white p-4 rounded-lg shadow-lg border border-gray-200 max-w-md max-h-96 overflow-auto">
+      <h3 className="font-bold mb-2">Debug: Current Data</h3>
+      <div className="text-xs font-mono whitespace-pre-wrap">
+        <div className="mb-2">
+          <strong>Form Data:</strong>
+          <pre>{JSON.stringify(formData, null, 2)}</pre>
+        </div>
+        <div>
+          <strong>Content Data:</strong>
+          <pre>{JSON.stringify(contentData, null, 2)}</pre>
+        </div>
+      </div>
+    </div>
+  )
+
+  // Add a new component for editable images
+  const EditableImage = ({
+    src,
+    alt,
+    field,
+    width = 400,
+    height = 300,
+    className = "",
+  }: {
+    src: string
+    alt: string
+    field: string
+    width?: number
+    height?: number
+    className?: string
+  }) => {
+    const [imageUrl, setImageUrl] = useState(src || "")
+    const [inputUrl, setInputUrl] = useState(src || "")
+    const [imageError, setImageError] = useState(false)
+
+    // Update image URL when the source changes
+    useEffect(() => {
+      setImageUrl(src || "")
+      setInputUrl(src || "")
+      setImageError(false)
+    }, [src])
+
+    const handleApplyUrl = () => {
+      setImageUrl(inputUrl)
+      setImageError(false)
+      // Also update in the parent component's state
+      setContentData((prev) => ({ ...prev, [field]: inputUrl }))
+    }
+
+    const handleImageError = () => {
+      setImageError(true)
+    }
+
+    return (
+      <div className="space-y-2">
+        {/* Always visible URL input and apply button */}
+        <div className="flex gap-2">
+          <Input
+            value={inputUrl}
+            onChange={(e) => setInputUrl(e.target.value)}
+            placeholder="Enter image URL"
+            className="flex-1"
+          />
+          <Button onClick={handleApplyUrl} variant="secondary" className="whitespace-nowrap">
+            Apply URL
+          </Button>
+        </div>
+
+        {/* Image container with border */}
+        <div className="relative border border-dashed border-gray-300 rounded-md overflow-hidden">
+          {imageUrl && !imageError ? (
+            // Try to display the image if URL exists and no error
+            <div className="relative w-full" style={{ minHeight: "200px" }}>
+              <Image
+                src={imageUrl || "/placeholder.svg"}
+                alt={alt}
+                width={width}
+                height={height}
+                className={`w-full h-auto ${className}`}
+                onError={handleImageError}
+              />
+            </div>
+          ) : (
+            // Show placeholder if no image URL or if image failed to load
+            <div
+              className="flex items-center justify-center bg-gray-100 w-full"
+              style={{ height: `${height}px`, minHeight: "200px" }}
+            >
+              <div className="text-center p-4">
+                <div className="text-gray-400 mb-2">{imageError ? "Image failed to load" : "No image available"}</div>
+                <p className="text-sm text-gray-500">Enter a URL above and click "Apply URL" to add an image</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     )
   }
 
@@ -603,6 +738,24 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
             />
           </div>
 
+          <div className="space-y-2">
+            <Label htmlFor="status">Status</Label>
+            <Select
+              value={formData.status}
+              onValueChange={(value) => setFormData((prev) => ({ ...prev, status: value }))}
+              disabled={isLoading}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="published">Published</SelectItem>
+                <SelectItem value="archived">Archived</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <Button
             type="button"
             onClick={handleSubmit}
@@ -648,9 +801,10 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
               <div className={styles.servicesDetailsContent}>
                 {/* Main Image */}
                 <div className={styles.servicesDetailsImg1}>
-                  <Image
-                    src="/customer-support-team.png"
+                  <EditableImage
+                    src={contentData.coverImage}
                     alt={formData.label}
+                    field="coverImage"
                     width={800}
                     height={500}
                     className="w-full h-auto"
@@ -661,15 +815,13 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                 <div className={styles.servicesDetailsTextBox1}>
                   <div className={styles.title}>
                     <h2>
-                      <EditableField value={formData.label} field="title" />
+                      <EditableField value={contentData.title || formData.label} field="title" />
                     </h2>
                   </div>
-                  <EditableField
-                    value={contentData.content}
-                    field="content"
-                    multiline={true}
-                    className={styles.text1}
-                  />
+                  {/* Fixed: Using span instead of div inside p */}
+                  <span className={styles.text1}>
+                    <EditableField value={contentData.content} field="content" multiline={true} />
+                  </span>
                 </div>
 
                 {/* Text Box 2 - Planning Work */}
@@ -677,9 +829,10 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                   <div className="flex flex-col md:flex-row">
                     <div className="w-full md:w-5/12">
                       <div className={styles.servicesDetailsTextBox2Img}>
-                        <Image
+                        <EditableImage
                           src="/strategic-roadmap.png"
                           alt="Planning Work"
+                          field="planningImage"
                           width={400}
                           height={300}
                           className="w-full h-auto"
@@ -694,13 +847,14 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                           </h2>
                         </div>
                         <div className={styles.text}>
-                          <p>
+                          {/* Fixed: Using span instead of p > div */}
+                          <span className="block">
                             <EditableField
                               value={contentData.planningDescription}
                               field="planningDescription"
                               multiline={true}
                             />
-                          </p>
+                          </span>
                         </div>
                         <EditableFeatureList features={contentData.planningFeatures} field="planningFeatures" />
                       </div>
@@ -720,7 +874,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                           >
                             <h4>
                               {editingField === "materialsTabTitle" ? (
-                                <div onClick={(e) => e.stopPropagation()}>
+                                <span onClick={(e) => e.stopPropagation()}>
                                   <Input
                                     value={contentData.materialsTabTitle}
                                     onChange={(e) =>
@@ -735,7 +889,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                       }
                                     }}
                                   />
-                                </div>
+                                </span>
                               ) : (
                                 <span
                                   onClick={(e) => {
@@ -744,7 +898,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                   }}
                                   className="cursor-pointer hover:text-blue-600"
                                 >
-                                  {contentData.materialsTabTitle}
+                                  {contentData.materialsTabTitle || "Materials"}
                                 </span>
                               )}
                             </h4>
@@ -755,7 +909,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                           >
                             <h4>
                               {editingField === "designTabTitle" ? (
-                                <div onClick={(e) => e.stopPropagation()}>
+                                <span onClick={(e) => e.stopPropagation()}>
                                   <Input
                                     value={contentData.designTabTitle}
                                     onChange={(e) =>
@@ -773,7 +927,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                       }
                                     }}
                                   />
-                                </div>
+                                </span>
                               ) : (
                                 <span
                                   onClick={(e) => {
@@ -782,7 +936,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                   }}
                                   className="cursor-pointer hover:text-blue-600"
                                 >
-                                  {contentData.designTabTitle}
+                                  {contentData.designTabTitle || "Design"}
                                 </span>
                               )}
                             </h4>
@@ -793,7 +947,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                           >
                             <h4>
                               {editingField === "careTabTitle" ? (
-                                <div onClick={(e) => e.stopPropagation()}>
+                                <span onClick={(e) => e.stopPropagation()}>
                                   <Input
                                     value={contentData.careTabTitle}
                                     onChange={(e) =>
@@ -808,7 +962,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                       }
                                     }}
                                   />
-                                </div>
+                                </span>
                               ) : (
                                 <span
                                   onClick={(e) => {
@@ -817,7 +971,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                   }}
                                   className="cursor-pointer hover:text-blue-600"
                                 >
-                                  {contentData.careTabTitle}
+                                  {contentData.careTabTitle || "Care"}
                                 </span>
                               )}
                             </h4>
@@ -828,7 +982,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                           >
                             <h4>
                               {editingField === "supportTabTitle" ? (
-                                <div onClick={(e) => e.stopPropagation()}>
+                                <span onClick={(e) => e.stopPropagation()}>
                                   <Input
                                     value={contentData.supportTabTitle}
                                     onChange={(e) =>
@@ -843,7 +997,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                       }
                                     }}
                                   />
-                                </div>
+                                </span>
                               ) : (
                                 <span
                                   onClick={(e) => {
@@ -852,7 +1006,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                   }}
                                   className="cursor-pointer hover:text-blue-600"
                                 >
-                                  {contentData.supportTabTitle}
+                                  {contentData.supportTabTitle || "Support"}
                                 </span>
                               )}
                             </h4>
@@ -871,9 +1025,10 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                               <div className="flex flex-col md:flex-row">
                                 <div className="w-full md:w-6/12">
                                   <div className={styles.qualityMaterialsTabBoxImg}>
-                                    <Image
-                                      src="/textile-texture-closeups.png"
+                                    <EditableImage
+                                      src={contentData.materialsImage}
                                       alt="Quality Materials"
+                                      field="materialsImage"
                                       width={400}
                                       height={300}
                                       className="w-full h-auto"
@@ -882,12 +1037,14 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                 </div>
                                 <div className="w-full md:w-6/12">
                                   <div className={styles.qualityMaterialsTabBoxContent}>
-                                    <EditableField
-                                      value={contentData.materialsContent}
-                                      field="materialsContent"
-                                      multiline={true}
-                                      className={styles.text1}
-                                    />
+                                    {/* Fixed: Using span instead of div inside p */}
+                                    <span className={styles.text1}>
+                                      <EditableField
+                                        value={contentData.materialsContent}
+                                        field="materialsContent"
+                                        multiline={true}
+                                      />
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -905,9 +1062,10 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                               <div className="flex flex-col md:flex-row">
                                 <div className="w-full md:w-6/12">
                                   <div className={styles.interiorDesignTabBoxImg}>
-                                    <Image
-                                      src="/modern-living-space.png"
+                                    <EditableImage
+                                      src={contentData.designImage}
                                       alt="Interior Design"
+                                      field="designImage"
                                       width={400}
                                       height={300}
                                       className="w-full h-auto"
@@ -916,12 +1074,14 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                 </div>
                                 <div className="w-full md:w-6/12">
                                   <div className={styles.interiorDesignTabBoxContent}>
-                                    <EditableField
-                                      value={contentData.designContent}
-                                      field="designContent"
-                                      multiline={true}
-                                      className={styles.text1}
-                                    />
+                                    {/* Fixed: Using span instead of div inside p */}
+                                    <span className={styles.text1}>
+                                      <EditableField
+                                        value={contentData.designContent}
+                                        field="designContent"
+                                        multiline={true}
+                                      />
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -939,9 +1099,10 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                               <div className="flex flex-col md:flex-row">
                                 <div className="w-full md:w-6/12">
                                   <div className={styles.personalCareTabBoxImg}>
-                                    <Image
-                                      src="/self-care-essentials.png"
+                                    <EditableImage
+                                      src={contentData.careImage}
                                       alt="Personal Care"
+                                      field="careImage"
                                       width={400}
                                       height={300}
                                       className="w-full h-auto"
@@ -950,12 +1111,14 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                                 </div>
                                 <div className="w-full md:w-6/12">
                                   <div className={styles.personalCareTabBoxContent}>
-                                    <EditableField
-                                      value={contentData.careContent}
-                                      field="careContent"
-                                      multiline={true}
-                                      className={styles.text1}
-                                    />
+                                    {/* Fixed: Using span instead of div inside p */}
+                                    <span className={styles.text1}>
+                                      <EditableField
+                                        value={contentData.careContent}
+                                        field="careContent"
+                                        multiline={true}
+                                      />
+                                    </span>
                                   </div>
                                 </div>
                               </div>
@@ -1072,9 +1235,10 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                   <div className={styles.title}>
                     <h2>Need Any Help</h2>
                   </div>
-                  <p>
+                  {/* Fixed: Using span instead of p > div */}
+                  <span className="block">
                     <EditableField value={contentData.additionalInfo} field="additionalInfo" multiline={true} />
-                  </p>
+                  </span>
                   <div className={styles.number}>
                     <a href="tel:6665559990">
                       <Phone size={20} className="mr-2 inline" />
@@ -1084,9 +1248,10 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                 </div>
 
                 <div className={styles.servicesDetailsTextBox3}>
-                  <p>
+                  {/* Fixed: Using span instead of p > div */}
+                  <span className="block">
                     <EditableField value={contentData.additionalInfo} field="additionalInfo" multiline={true} />
-                  </p>
+                  </span>
                   <EditableFeatureList features={contentData.additionalFeatures} field="additionalFeatures" />
                 </div>
               </div>
@@ -1102,13 +1267,19 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
           {isLoading ? "Saving..." : subitem?._id ? "Update Subitem" : "Create Subitem"}
         </Button>
       </div>
+
+      {/* Debug button and panel */}
+      <div className="fixed bottom-4 right-4 z-40">
+        <Button
+          onClick={() => setShowDebug(!showDebug)}
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+        >
+          <Bug className="h-4 w-4" /> Debug Data
+        </Button>
+        {showDebug && <DebugPanel />}
+      </div>
     </div>
   )
 }
-
-// Helper component for labels
-const Label = ({ htmlFor, children }: { htmlFor: string; children: React.ReactNode }) => (
-  <label htmlFor={htmlFor} className="text-sm font-medium">
-    {children}
-  </label>
-)

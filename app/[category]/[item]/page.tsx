@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import connectToDatabase from "@/lib/mongodb"
 import Category from "@/models/Category"
 import { SubitemCard } from "@/components/subitem-card"
+import { serializeMongoData } from "@/lib/serialize-mongo"
 
 interface PageProps {
   params: {
@@ -51,7 +52,11 @@ async function getCategoryAndItem(categorySlug: string, itemSlug: string) {
       return null
     }
 
-    return { category, item }
+    // Serialize the MongoDB objects to plain JavaScript objects
+    return {
+      category: serializeMongoData(category),
+      item: serializeMongoData(item),
+    }
   } catch (error) {
     console.error("Error fetching category and item:", error)
     return null

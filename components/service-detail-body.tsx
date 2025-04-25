@@ -31,8 +31,8 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
               {/* Main Image */}
               <div className={styles.servicesDetailsImg1}>
                 <Image
-                  src="/customer-support-team.png"
-                  alt={title || "Service Detail"}
+                  src={serviceData.coverImage || "/customer-support-team.png"}
+                  alt={serviceData.title || "Service Detail"}
                   width={800}
                   height={500}
                   className="w-full h-auto"

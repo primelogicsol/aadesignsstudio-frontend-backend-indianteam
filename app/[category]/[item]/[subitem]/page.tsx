@@ -6,6 +6,7 @@ import Subitem from "@/models/Subitem"
 import ServiceDetailBody from "@/components/service-detail-body"
 import { unstable_noStore } from "next/cache"
 import type { ServiceDetail } from "@/types/service"
+import { serializeMongoData } from "@/lib/serialize-mongo"
 
 interface PageProps {
   params: {
@@ -71,13 +72,17 @@ async function getSubitem(categorySlug: string, itemSlug: string, subitemSlug: s
     // Get the full subitem content from the subitems collection
     const subitemFull = await Subitem.findById(subitemBasic._id).lean()
 
-    // Combine the data
-    const subitem = {
+    // Combine the data and serialize it
+    const subitem = serializeMongoData({
       ...subitemBasic,
       ...subitemFull,
-    }
+    })
 
-    return { category, item, subitem }
+    return {
+      category: serializeMongoData(category),
+      item: serializeMongoData(item),
+      subitem,
+    }
   } catch (error) {
     console.error("Error fetching subitem:", error)
     return null
@@ -93,11 +98,7 @@ export default async function SubitemPage({ params }: PageProps) {
 
   const { category, item, subitem } = result
 
-  // Add console.log to see the raw data
-  console.log("Raw subitem data from database:", JSON.stringify(subitem, null, 2))
-
   // Map the subitem data directly from the database to the ServiceDetail interface
-  // without adding any default values - let the component handle defaults if needed
   const serviceData: ServiceDetail = {
     id: subitem._id?.toString() || "",
     title: subitem.label || "",
@@ -111,31 +112,33 @@ export default async function SubitemPage({ params }: PageProps) {
     additionalFeatures: subitem.additionalFeatures || [],
     tabContent: {
       materials: {
-        title: subitem.tabContent?.materials?.title || "",
-        image: "/textile-texture-closeups.png", // We'll keep image paths for now
+        title: subitem.tabContent?.materials?.title || "Quality Materials",
+        // Use the image from backend if available, otherwise use default
+        image: subitem.tabContent?.materials?.image || "/textile-texture-closeups.png",
         content: subitem.tabContent?.materials?.content || "",
       },
       design: {
-        title: subitem.tabContent?.design?.title || "",
-        image: "/modern-living-space.png",
+        title: subitem.tabContent?.design?.title || "Interior Design",
+        // Use the image from backend if available, otherwise use default
+        image: subitem.tabContent?.design?.image || "/modern-living-space.png",
         content: subitem.tabContent?.design?.content || "",
       },
       care: {
-        title: subitem.tabContent?.care?.title || "",
-        image: "/self-care-essentials.png",
+        title: subitem.tabContent?.care?.title || "Personal Care",
+        // Use the image from backend if available, otherwise use default
+        image: subitem.tabContent?.care?.image || "/self-care-essentials.png",
         content: subitem.tabContent?.care?.content || "",
       },
       support: {
-        title: subitem.tabContent?.support?.title || "",
-        image: "/customer-support-team.png",
+        title: subitem.tabContent?.support?.title || "Support",
+        // Use the image from backend if available, otherwise use default
+        image: subitem.tabContent?.support?.image || "/customer-support-team.png",
         content: subitem.tabContent?.support?.content || "",
         hasForm: true,
       },
     },
+    coverImage: subitem.coverImage || "/customer-support-team.png",
   }
-
-  // Log the mapped data for debugging
-  console.log("Mapped service data:", serviceData)
 
   return (
     <div>

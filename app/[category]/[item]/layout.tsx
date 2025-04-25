@@ -4,6 +4,7 @@ import connectToDatabase from "@/lib/mongodb"
 import Category from "@/models/Category"
 import { SubNavbar } from "@/components/navbar/sub-navbar"
 import { MultiLineSlideHero } from "@/components/multi-line-slide-hero"
+import { serializeMongoData } from "@/lib/serialize-mongo"
 
 interface LayoutProps {
   children: React.ReactNode
@@ -54,7 +55,11 @@ async function getCategoryAndItem(categorySlug: string, itemSlug: string) {
       return null
     }
 
-    return { category, item }
+    // Serialize the MongoDB objects to plain JavaScript objects
+    return {
+      category: serializeMongoData(category),
+      item: serializeMongoData(item),
+    }
   } catch (error) {
     console.error("Error fetching category and item:", error)
     return null
@@ -96,7 +101,7 @@ export default async function ItemLayout({ children, params }: LayoutProps) {
   return (
     <>
       {/* Hero Section first */}
-      {/* <MultiLineSlideHero /> */}
+      {/* <MultiLineSlideHero slides={customSlides} /> */}
 
       {/* SubNavbar after hero */}
       {hasSubitems && (
