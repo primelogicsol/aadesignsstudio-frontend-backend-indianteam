@@ -11,6 +11,9 @@ import { serializeMongoData } from "@/lib/serialize-mongo"
 import IndustryDetailBody from "@/components/IndustryDetailBody"
 // First, add the import for DesignTrendsContainer at the top of the file
 import { DesignTrendsContainer } from "@/components/design-trends/design-trends-container"
+// First, add the import for CollaborativeNetworkDetail at the top of the file:
+import { CollaborativeNetworkDetail } from "@/components/collaborative-network/collaborative-network-detail"
+import { networkFallbackData } from "@/lib/collaborative-network/fallback-data"
 
 interface PageProps {
   params: {
@@ -103,11 +106,54 @@ export default async function SubitemPage({ params }: PageProps) {
 
   const { category, item, subitem } = result
 
+  // Check if this is a collaborative network category
+  const isCollaborativeNetworkCategory = params.category === "collaborative-network"
+
   // Check if this is an industry category
   const isIndustryCategory = params.category === "industries"
 
   // Check if this is a design trends category
   const isDesignTrendsCategory = params.category === "design-trends"
+
+  if (isCollaborativeNetworkCategory) {
+    // Use the subitem data or fallback to default network data
+    try {
+      return (
+        <div className="container mx-auto py-8 px-4">
+          <div className="bg-gray-100 py-4 mb-6">
+            <div className="container mx-auto px-4">
+              <div className="flex items-center gap-2 text-sm text-gray-500">
+                <Link href="/" className="hover:text-gray-700">
+                  Home
+                </Link>
+                <span>/</span>
+                <Link href={`/${params.category}`} className="hover:text-gray-700">
+                  {category.name}
+                </Link>
+                <span>/</span>
+                <Link href={`/${params.category}/${params.item}`} className="hover:text-gray-700">
+                  {item.label}
+                </Link>
+                <span>/</span>
+                <span className="font-medium text-gray-900">{subitem.label}</span>
+              </div>
+            </div>
+          </div>
+
+          <CollaborativeNetworkDetail
+            networkId={subitem._id?.toString()}
+            networkData={subitem.networkData || networkFallbackData}
+            className="mt-8"
+          />
+        </div>
+      )
+    } catch (error) {
+      console.error("Error rendering CollaborativeNetworkDetail:", error)
+      // Fallback to standard ServiceDetailBody if there's an error
+    }
+  }
+
+  // Check if this is a design trends category
 
   if (isDesignTrendsCategory) {
     // Use static data for design trends instead of fetching from an API
