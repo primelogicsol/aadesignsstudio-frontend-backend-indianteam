@@ -3,15 +3,13 @@ import Link from "next/link"
 import connectToDatabase from "@/lib/mongodb"
 import Category from "@/models/Category"
 import Subitem from "@/models/Subitem"
+import IndustrySubitem from "@/models/IndustrySubitem" // Import the IndustrySubitem model
 import ServiceDetailBody from "@/components/service-detail-body"
 import { unstable_noStore } from "next/cache"
 import type { ServiceDetail } from "@/types/service"
 import { serializeMongoData } from "@/lib/serialize-mongo"
-// First, add the import for IndustryDetailBody at the top of the file
 import IndustryDetailBody from "@/components/IndustryDetailBody"
-// First, add the import for DesignTrendsContainer at the top of the file
 import { DesignTrendsContainer } from "@/components/design-trends/design-trends-container"
-// First, add the import for CollaborativeNetworkDetail at the top of the file:
 import { CollaborativeNetworkDetail } from "@/components/collaborative-network/collaborative-network-detail"
 import { networkFallbackData } from "@/lib/collaborative-network/fallback-data"
 
@@ -79,10 +77,20 @@ async function getSubitem(categorySlug: string, itemSlug: string, subitemSlug: s
     // Get the full subitem content from the subitems collection
     const subitemFull = await Subitem.findById(subitemBasic._id).lean()
 
+    // Check if this is an industry subitem
+    const isIndustry = categorySlug === "industries" || subitemBasic.type === "industry"
+
+    // If it's an industry, get the industry-specific data
+    let industryData = null
+    if (isIndustry) {
+      industryData = await IndustrySubitem.findById(subitemBasic._id).lean()
+    }
+
     // Combine the data and serialize it
     const subitem = serializeMongoData({
       ...subitemBasic,
       ...subitemFull,
+      industryData: industryData, // Add the industry data if available
     })
 
     return {
@@ -96,193 +104,219 @@ async function getSubitem(categorySlug: string, itemSlug: string, subitemSlug: s
   }
 }
 
-// Then, modify the SubitemPage component to conditionally render IndustryDetailBody for the 'industries' category
 export default async function SubitemPage({ params }: PageProps) {
-  const result = await getSubitem(params.category, params.item, params.subitem)
+  try {
+    const result = await getSubitem(params.category, params.item, params.subitem)
 
-  if (!result) {
-    notFound()
-  }
+    if (!result) {
+      notFound()
+    }
 
-  const { category, item, subitem } = result
+    const { category, item, subitem } = result
 
-  // Check if this is a collaborative network category
-  const isCollaborativeNetworkCategory = params.category === "collaborative-network"
+    // Check if this is a collaborative network category
+    const isCollaborativeNetworkCategory = params.category === "collaborative-network"
 
-  // Check if this is an industry category
-  const isIndustryCategory = params.category === "industries"
+    // Check if this is an industry category
+    const isIndustryCategory = params.category === "industries" || subitem.type === "industry"
 
-  // Check if this is a design trends category
-  const isDesignTrendsCategory = params.category === "design-trends"
+    // Check if this is a design trends category
+    const isDesignTrendsCategory = params.category === "design-trends"
 
-  if (isCollaborativeNetworkCategory) {
-    // Use the subitem data or fallback to default network data
-    try {
-      return (
-        <div className="container mx-auto py-8 px-4">
-          <div className="bg-gray-100 py-4 mb-6">
-            <div className="container mx-auto px-4">
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <Link href="/" className="hover:text-gray-700">
-                  Home
-                </Link>
-                <span>/</span>
-                <Link href={`/${params.category}`} className="hover:text-gray-700">
-                  {category.name}
-                </Link>
-                <span>/</span>
-                <Link href={`/${params.category}/${params.item}`} className="hover:text-gray-700">
-                  {item.label}
-                </Link>
-                <span>/</span>
-                <span className="font-medium text-gray-900">{subitem.label}</span>
+    if (isCollaborativeNetworkCategory) {
+      // Use the subitem data or fallback to default network data
+      try {
+        return (
+          <div className="container mx-auto py-8 px-4">
+            <div className="bg-gray-100 py-4 mb-6">
+              <div className="container mx-auto px-4">
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Link href="/" className="hover:text-gray-700">
+                    Home
+                  </Link>
+                  <span>/</span>
+                  <Link href={`/${params.category}`} className="hover:text-gray-700">
+                    {category.name}
+                  </Link>
+                  <span>/</span>
+                  <Link href={`/${params.category}/${params.item}`} className="hover:text-gray-700">
+                    {item.label}
+                  </Link>
+                  <span>/</span>
+                  <span className="font-medium text-gray-900">{subitem.label}</span>
+                </div>
               </div>
             </div>
+
+            <CollaborativeNetworkDetail
+              networkId={subitem._id?.toString()}
+              networkData={subitem.networkData || networkFallbackData}
+              categoryId={category._id?.toString()}
+              itemId={item._id?.toString()}
+              subitemId={subitem._id?.toString()}
+              isEditable={true}
+              className="mt-8"
+            />
           </div>
-
-          <CollaborativeNetworkDetail
-            networkId={subitem._id?.toString()}
-            networkData={subitem.networkData || networkFallbackData}
-            className="mt-8"
-          />
-        </div>
-      )
-    } catch (error) {
-      console.error("Error rendering CollaborativeNetworkDetail:", error)
-      // Fallback to standard ServiceDetailBody if there's an error
+        )
+      } catch (error) {
+        console.error("Error rendering CollaborativeNetworkDetail:", error)
+        // Fallback to standard ServiceDetailBody if there's an error
+        return renderFallbackView(category, item, subitem, params)
+      }
     }
-  }
 
-  // Check if this is a design trends category
-
-  if (isDesignTrendsCategory) {
-    // Use static data for design trends instead of fetching from an API
-    try {
-      return (
-        <div className="container mx-auto py-8 px-4">
-          <div className="bg-gray-100 py-4 mb-6">
-            <div className="container mx-auto px-4">
-              <div className="flex items-center gap-2 text-sm text-gray-500">
-                <Link href="/" className="hover:text-gray-700">
-                  Home
-                </Link>
-                <span>/</span>
-                <Link href={`/${params.category}`} className="hover:text-gray-700">
-                  {category.name}
-                </Link>
-                <span>/</span>
-                <Link href={`/${params.category}/${params.item}`} className="hover:text-gray-700">
-                  {item.label}
-                </Link>
-                <span>/</span>
-                <span className="font-medium text-gray-900">{subitem.label}</span>
+    if (isDesignTrendsCategory) {
+      // Use static data for design trends instead of fetching from an API
+      try {
+        return (
+          <div className="container mx-auto py-8 px-4">
+            <div className="bg-gray-100 py-4 mb-6">
+              <div className="container mx-auto px-4">
+                <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <Link href="/" className="hover:text-gray-700">
+                    Home
+                  </Link>
+                  <span>/</span>
+                  <Link href={`/${params.category}`} className="hover:text-gray-700">
+                    {category.name}
+                  </Link>
+                  <span>/</span>
+                  <Link href={`/${params.category}/${params.item}`} className="hover:text-gray-700">
+                    {item.label}
+                  </Link>
+                  <span>/</span>
+                  <span className="font-medium text-gray-900">{subitem.label}</span>
+                </div>
               </div>
             </div>
+
+            <h1 className="text-3xl font-bold mb-6">{subitem.label}</h1>
+
+            <DesignTrendsContainer
+              title={subitem.content?.title || subitem.label}
+              description={
+                typeof subitem.content?.description === "string"
+                  ? subitem.content.description
+                  : "Explore the latest design trends and insights"
+              }
+              // Force the use of fallback data by providing a non-existent endpoint
+              endpoint="/api/non-existent-endpoint"
+              initialCategory="all"
+              maxItems={6}
+              showFilters={true}
+              showLoadMore={true}
+              layout="featured"
+              className="mt-8"
+            />
           </div>
+        )
+      } catch (error) {
+        console.error("Error rendering DesignTrendsContainer:", error)
+        // Fallback to standard ServiceDetailBody if there's an error
+        return renderFallbackView(category, item, subitem, params)
+      }
+    }
 
-          <h1 className="text-3xl font-bold mb-6">{subitem.label}</h1>
+    if (isIndustryCategory) {
+      try {
+        // Use the industry data if available
+        const industryData = subitem.industryData || {}
 
-          <DesignTrendsContainer
-            title={subitem.content?.title || subitem.label}
-            description={subitem.content?.description || "Explore the latest design trends and insights"}
-            // Force the use of fallback data by providing a non-existent endpoint
-            endpoint="/api/non-existent-endpoint"
-            initialCategory="all"
-            maxItems={6}
-            showFilters={true}
-            showLoadMore={true}
-            layout="featured"
-            className="mt-8"
+        // Map the industry data to the format expected by IndustryDetailBody
+        const mappedIndustryData = {
+          id: subitem._id?.toString() || "",
+          title: industryData.title || subitem.label || "",
+          subtitle: industryData.subtitle || subitem.content?.title || subitem.label || "",
+          description: {
+            intro:
+              industryData.description?.intro ||
+              (subitem.content?.description ? [subitem.content.description] : ["No description available"]),
+            conclusion: industryData.description?.conclusion || subitem.additionalInfo || "",
+          },
+          industryStatus: industryData.industryStatus || {
+            title: "Industry Status",
+            items: [],
+          },
+          challenges: industryData.challenges || [],
+          requirements: industryData.requirements || [],
+          solutions: industryData.solutions || [],
+          benefits: industryData.benefits || [],
+          features: industryData.features || [],
+          faq: industryData.faq || [],
+          heroImage: industryData.heroImage || subitem.coverImage || "/diverse-manufacturing-floor.png",
+          sidebarImage: industryData.sidebarImage || "/modern-business-tri-fold.png",
+          sidebarTitle: industryData.sidebarTitle || "All Services",
+          contactTitle: industryData.contactTitle || "Need Help?",
+          contactText: industryData.contactText || "Contact our customer support team if you have any questions.",
+        }
+
+        return (
+          <IndustryDetailBody
+            data={mappedIndustryData}
+            type="industry"
+            parentTitle={item.label}
+            parentPath={`/${params.category}/${params.item}`}
+            category={category.name}
+            categoryPath={`/${params.category}`}
           />
-        </div>
-      )
-    } catch (error) {
-      console.error("Error rendering DesignTrendsContainer:", error)
-      // Fallback to standard ServiceDetailBody if there's an error
+        )
+      } catch (error) {
+        console.error("Error rendering IndustryDetailBody:", error)
+        // Fallback to standard ServiceDetailBody if there's an error
+        return renderFallbackView(category, item, subitem, params)
+      }
     }
+
+    // Default case: render standard service detail
+    return renderFallbackView(category, item, subitem, params)
+  } catch (error) {
+    console.error("Error in SubitemPage:", error)
+    // Render a generic error page
+    return (
+      <div className="container mx-auto py-8 px-4">
+        <h1 className="text-3xl font-bold mb-6">Something went wrong</h1>
+        <p className="mb-4">We encountered an error while loading this page.</p>
+        <Link href="/" className="text-blue-600 hover:underline">
+          Return to home page
+        </Link>
+      </div>
+    )
   }
+}
 
-  if (isIndustryCategory) {
-    // Map the subitem data to the format expected by IndustryDetailBody
-    const industryData = {
-      id: subitem._id?.toString() || "",
-      title: subitem.label || "",
-      subtitle: subitem.content?.title || subitem.label || "",
-      description: {
-        intro: subitem.content?.description ? [subitem.content.description] : ["No description available"],
-        conclusion: subitem.additionalInfo || "",
-      },
-      industryStatus: subitem.industryStatus || {
-        title: "Industry Status",
-        items: subitem.industryStatusItems || [],
-      },
-      challenges: subitem.challenges || [],
-      requirements: subitem.requirements || [],
-      solutions: subitem.solutions || [
-        {
-          title: "Solutions",
-          items: subitem.solutionItems || [],
-        },
-      ],
-      benefits: subitem.benefits || [],
-      features: subitem.features || [],
-      faq: subitem.faq || [],
-      heroImage: subitem.coverImage || "/diverse-manufacturing-floor.png",
-      sidebarImage: subitem.sidebarImage || "/modern-business-tri-fold.png",
-    }
-
-    // Handle potential missing data with fallbacks
-    try {
-      return (
-        <IndustryDetailBody
-          data={industryData}
-          type="industry"
-          parentTitle={item.label}
-          parentPath={`/${params.category}/${params.item}`}
-          category={category.name}
-          categoryPath={`/${params.category}`}
-        />
-      )
-    } catch (error) {
-      console.error("Error rendering IndustryDetailBody:", error)
-      // Fallback to standard ServiceDetailBody if there's an error
-    }
-  }
-
+// Helper function to render a fallback view
+function renderFallbackView(category: any, item: any, subitem: any, params: PageProps["params"]) {
   // Map the subitem data directly from the database to the ServiceDetail interface
   const serviceData: ServiceDetail = {
     id: subitem._id?.toString() || "",
     title: subitem.label || "",
-    content: subitem.content?.description || "",
+    content: typeof subitem.content?.description === "string" ? subitem.content.description : "",
     planningWork: {
       title: subitem.planningWork?.title || "",
       description: subitem.planningWork?.description || "",
-      features: subitem.planningWork?.features || [],
+      features: Array.isArray(subitem.planningWork?.features) ? subitem.planningWork.features : [],
     },
     additionalInfo: subitem.additionalInfo || "",
-    additionalFeatures: subitem.additionalFeatures || [],
+    additionalFeatures: Array.isArray(subitem.additionalFeatures) ? subitem.additionalFeatures : [],
     tabContent: {
       materials: {
         title: subitem.tabContent?.materials?.title || "Quality Materials",
-        // Use the image from backend if available, otherwise use default
         image: subitem.tabContent?.materials?.image || "/textile-texture-closeups.png",
         content: subitem.tabContent?.materials?.content || "",
       },
       design: {
         title: subitem.tabContent?.design?.title || "Interior Design",
-        // Use the image from backend if available, otherwise use default
         image: subitem.tabContent?.design?.image || "/modern-living-space.png",
         content: subitem.tabContent?.design?.content || "",
       },
       care: {
         title: subitem.tabContent?.care?.title || "Personal Care",
-        // Use the image from backend if available, otherwise use default
         image: subitem.tabContent?.care?.image || "/self-care-essentials.png",
         content: subitem.tabContent?.care?.content || "",
       },
       support: {
         title: subitem.tabContent?.support?.title || "Support",
-        // Use the image from backend if available, otherwise use default
         image: subitem.tabContent?.support?.image || "/customer-support-team.png",
         content: subitem.tabContent?.support?.content || "",
         hasForm: true,

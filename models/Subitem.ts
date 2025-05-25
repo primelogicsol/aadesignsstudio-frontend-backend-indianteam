@@ -31,6 +31,7 @@ const SubitemSchema = new mongoose.Schema(
       title: String,
       description: String,
       features: [String],
+      image: String,
     },
     additionalInfo: String,
     additionalFeatures: [String],
@@ -38,18 +39,22 @@ const SubitemSchema = new mongoose.Schema(
       materials: {
         title: String,
         content: String,
+        image: String,
       },
       design: {
         title: String,
         content: String,
+        image: String,
       },
       care: {
         title: String,
         content: String,
+        image: String,
       },
       support: {
         title: String,
         content: String,
+        image: String,
       },
     },
     body: String,
