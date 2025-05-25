@@ -84,7 +84,7 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
                               <div className={styles.icon}>
                                 <Check size={12} />
                               </div>
-                              <div className={styles.text}>
+                              <div className={styles.listitemtext}>
                                 <p>{feature}</p>
                               </div>
                             </li>

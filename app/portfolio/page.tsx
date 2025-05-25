@@ -96,7 +96,7 @@ export default function PortfolioPage() {
         <div className="absolute bottom-0 right-0 w-1/3 h-full hidden lg:block">
           <div className="relative h-full w-full">
             <Image
-              src="/inverseWhiteLogo.png"
+              src="/placeholder.svg?height=800&width=800&query=architecture portfolio"
               alt="Portfolio showcase"
               fill
               className="object-contain object-right-bottom"
