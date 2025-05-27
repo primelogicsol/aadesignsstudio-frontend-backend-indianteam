@@ -1,140 +1,3 @@
-// "use client"
-
-// import Link from "next/link"
-// import Image from "next/image"
-
-// export default function Footer() {
-//   return (
-//     <footer className="bg-[#003087] border-t">
-//       <div className="container mx-auto px-6 py-8">
-//         {/* Top Section */}
-//         <div className="flex flex-col md:flex-row md:justify-between mb-8">
-//           {/* Left Column: Logo & Contact Info */}
-//           <div className="w-full md:w-1/4 mb-8 md:mb-0">
-//             <Image
-//               src="/LogoNew.png"
-//               alt="AA Design Studio Logo"
-//               width={120}
-//               height={60}
-//               className="h-12 w-auto"
-//             />
-//             <p className="text-sm leading-6">
-//               Phone: 1-866-XXXX-XXXX
-//               <br />
-//               Media Inquiries: media@aadesignstudio.com
-//             </p>
-//           </div>
-
-//           {/* Right Columns */}
-//           <div className="w-full md:w-3/4 grid grid-cols-2 md:grid-cols-6 gap-6 text-sm">
-//             {/* Expertise */}
-//             <div>
-//               <h3 className="mb-3 uppercase font-semibold tracking-wide" style={{ color: "#003087" }}>
-//                 expertise
-//               </h3>
-//               <ul className="space-y-1 leading-6">
-//                 <li>Buildings</li>
-//                 <li>Community Development</li>
-//                 <li>Energy</li>
-//                 <li>Environment</li>
-//                 <li>Federal Government</li>
-//                 <li>Mining, Minerals &amp; Metals</li>
-//                 <li>Transportation</li>
-//                 <li>Water</li>
-//                 <li>View All Markets</li>
-//                 <li>View All Services</li>
-//               </ul>
-//             </div>
-
-//             {/* Initiatives */}
-//             <div>
-//               <h3 className="mb-3 uppercase font-semibold tracking-wide" style={{ color: "#003087" }}>
-//                 initiatives
-//               </h3>
-//               <ul className="space-y-1 leading-6">
-//                 <li>Climate Solutions</li>
-//                 <li>Digital (Stantec.io)</li>
-//                 <li>Coastal Resilience</li>
-//                 <li>Ecosystem Restoration</li>
-//                 <li>Energy Transition</li>
-//                 <li>Smart Cities</li>
-//                 <li>Sustainability</li>
-//                 <li>International Development</li>
-//               </ul>
-//             </div>
-
-//             {/* Ideas */}
-//             <div>
-//               <h3 className="mb-3 uppercase font-semibold tracking-wide" style={{ color: "#003087" }}>
-//                 ideas
-//               </h3>
-//               <ul className="space-y-1 leading-6">
-//                 <li>Visit Our Hub</li>
-//               </ul>
-//             </div>
-
-//             {/* Careers */}
-//             <div>
-//               <h3 className="mb-3 uppercase font-semibold tracking-wide" style={{ color: "#003087" }}>
-//                 careers
-//               </h3>
-//               <ul className="space-y-1 leading-6">
-//                 <li>Jobs</li>
-//                 <li>Students &amp; Graduates</li>
-//                 <li>Search &amp; Apply</li>
-//               </ul>
-//             </div>
-
-//             {/* About */}
-//             <div>
-//               <h3 className="mb-3 uppercase font-semibold tracking-wide" style={{ color: "#003087" }}>
-//                 about
-//               </h3>
-//               <ul className="space-y-1 leading-6">
-//                 <li>Company Overview</li>
-//                 <li>Board of Directors</li>
-//                 <li>Corporate Governance</li>
-//                 <li>History</li>
-//                 <li>Indigenous Relations</li>
-//                 <li>Innovation</li>
-//                 <li>Inclusion, Diversity &amp; Equity</li>
-//                 <li>Community Engagement</li>
-//                 <li>Find an Office</li>
-//                 <li>More Info</li>
-//               </ul>
-//             </div>
-
-//             {/* Investors */}
-//             <div>
-//               <h3 className="mb-3 uppercase font-semibold tracking-wide" style={{ color: "#003087" }}>
-//                 investors
-//               </h3>
-//               <ul className="space-y-1 leading-6">
-//                 <li>Why Invest</li>
-//                 <li>Financial Reports &amp; Filings</li>
-//                 <li>Presentations &amp; Events</li>
-//                 <li>Corporate Governance</li>
-//                 <li>Dividend &amp; Stock Info</li>
-//                 <li>Contact Investors</li>
-//               </ul>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Bottom Bar */}
-//         <div className="border-t pt-4 flex flex-col md:flex-row md:justify-between items-center text-sm">
-//           <p className="mb-4 md:mb-0">&copy; 2025 AA Design Studio. All rights reserved.</p>
-//           <div className="space-x-4">
-//             <Link href="/privacy-policy">Privacy Policy</Link>
-//             <Link href="/sitemap">Sitemap</Link>
-//           </div>
-//         </div>
-//       </div>
-//     </footer>
-//   )
-// }
-
-
 "use client"
 
 import Link from "next/link"
@@ -186,17 +49,17 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
           {/* Left Section: Logo & Description */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left">
-            
-              <Image
-                src="/inverseWhiteLogo.png"
-                alt="AA Design Studio"
-                width={150}
-                height={50}
-                onError={handleLogoError}
-                priority
-              />
-            
-            
+
+            <Image
+              src="/inverseWhiteLogo.png"
+              alt="AA Design Studio"
+              width={150}
+              height={50}
+              onError={handleLogoError}
+              priority
+            />
+
+
             <p className="mt-4 text-sm leading-relaxed max-w-md">
               A non-commercial platform and the world largest website for the freelance platform. We empower you with
               knowledge and tools to make informed, independent choices.
@@ -210,104 +73,38 @@ export const Footer = () => {
           </div>
 
           {/* Right Section: Navigation Links */}
-          <div className="grid grid-cols-1 md:grid-cols-3 mt-20 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6" style={{ marginTop: "108px" }}>
             {/* Craft Registry */}
             <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Services</h3>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link
-                    href="/services/software-development/web-development"
-                    className="text-white hover:text-[#FF6B35]"
-                  >
-                    Web Development
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/services/software-development/mobile-development"
-                    className="text-white hover:text-[#FF6B35]"
-                  >
-                    Mobile Development
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/services/software-development/game-development"
-                    className="text-white hover:text-[#FF6B35]"
-                  >
-                    Game Development
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-white hover:text-[#FF6B35]">
-                    <span className="text-[#FF6B35]">View More</span>
-                  </Link>
-                </li>
-              </ul>
+              <Link href={'/'}>
+                <h3 className="text-lg font-semibold text-white mb-3">General Services</h3>
+              </Link>
+              <Link href={'/'}>
+                <h3 className="text-lg font-semibold text-white mb-3">Single Services</h3>
+              </Link>
+
+
             </div>
 
             {/* Craft Resources */}
             <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Industries</h3>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link
-                    href="/industries/healthcare-and-life/regulatory-compliance"
-                    className="text-white hover:text-[#FF6B35]"
-                  >
-                    Regulatory Compliance
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/industries/healthcare-and-life/regulatory-compliance"
-                    className="text-white hover:text-[#FF6B35]"
-                  >
-                    Data-Driven Care
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/industries/healthcare-and-life/regulatory-compliance"
-                    className="text-white hover:text-[#FF6B35]"
-                  >
-                    Clous & DevOps
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-white hover:text-[#FF6B35]">
-                    <span className="text-[#FF6B35]">View More</span>
-                  </Link>
-                </li>
-              </ul>
+              <Link href={'/'}>
+                <h3 className="text-lg font-semibold text-white mb-3">Tech Services</h3>
+              </Link>
+              <Link href={'/'}>
+                <h3 className="text-lg font-semibold text-white mb-3">Industries</h3>
+              </Link>
+
             </div>
 
             {/* About & Connect */}
             <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Technologies</h3>
-              <ul className="space-y-2 text-sm">
-                <li>
-                  <Link href="/technologies/web-tech/react" className="text-white hover:text-[#FF6B35]">
-                    React
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/technologies/web-tech/react" className="text-white hover:text-[#FF6B35]">
-                    Angular
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/technologies/web-tech/react" className="text-white hover:text-[#FF6B35]">
-                    Node.Js
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#" className="text-white hover:text-[#FF6B35]">
-                    <span className="text-[#FF6B35]">View More</span>
-                  </Link>
-                </li>
-              </ul>
+              <Link href={'/'}>
+                <h3 className="text-lg font-semibold text-white mb-3">Collabrative Network</h3>
+              </Link>
+              <Link href={'/'}>
+                <h3 className="text-lg font-semibold text-white mb-3">Design Trends</h3>
+              </Link>
             </div>
           </div>
         </div>

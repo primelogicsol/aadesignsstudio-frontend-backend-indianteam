@@ -126,6 +126,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
     supportImage: string
     coverImage: string
     activeTab: string
+    planningImage: string
   }>({
     title: "",
     content: "",
@@ -149,6 +150,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
     supportImage: "/customer-support-team.png",
     coverImage: "/customer-support-team.png",
     activeTab: "materials",
+    planningImage: "/planningImage.png",
   })
 
   const [availableItems, setAvailableItems] = useState<Array<{ _id: string; label: string }>>([])
@@ -192,6 +194,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
         supportImage: subitem.tabContent?.support?.image || "/customer-support-team.png",
         coverImage: subitem.coverImage || "/customer-support-team.png",
         activeTab: "materials",
+        planningImage: subitem.planningImage || "/planningImage.png",
       })
 
       setDataInitialized(true)
@@ -365,6 +368,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
           },
         },
         coverImage: contentData.coverImage,
+        planningImage: contentData.planningImage,
       }
 
       const response = await fetch(url, {
@@ -600,6 +604,10 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
     }, [src])
 
     const handleApplyUrl = () => {
+      // alert(inputUrl)
+      // alert(imageUrl)
+      console.log(inputUrl + "-----------------------------------------inputUrl")
+      console.log(imageUrl + "-----------------------------------------imageUrl")
       setImageUrl(inputUrl)
       setImageError(false)
       // Also update in the parent component's state
@@ -607,6 +615,10 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
     }
 
     const handleImageError = () => {
+      alert(inputUrl)
+      alert(imageUrl)
+      console.log(inputUrl + "-----------------------------------------inputUrlerror")
+      console.log(imageUrl + "-----------------------------------------imageUrlerror")
       setImageError(true)
     }
 
@@ -661,9 +673,8 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
       {/* Floating controls panel */}
       <div
         ref={controlsRef}
-        className={`fixed top-4 right-4 z-50 bg-white rounded-lg shadow-lg border border-gray-200 p-4 transition-opacity ${
-          showControls ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed top-4 right-4 z-50 bg-white rounded-lg shadow-lg border border-gray-200 p-4 transition-opacity ${showControls ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
       >
         <div className="flex justify-between items-center mb-4">
           <h3 className="font-medium">Page Settings</h3>
@@ -828,10 +839,18 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                 <div className={styles.servicesDetailsTextBox2}>
                   <div className="flex flex-col md:flex-row">
                     <div className="w-full md:w-5/12">
-                      <div className={styles.servicesDetailsTextBox2Img}>
-                        <EditableImage
+                      <div className={styles.servicesDetailsTextBox1Img}>
+                        {/* <EditableImage
                           src="/strategic-roadmap.png"
                           alt="Planning Work"
+                          field="planningImage"
+                          width={400}
+                          height={300}
+                          className="w-full h-auto"
+                        /> */}
+                        <EditableImage
+                          src={contentData.planningImage}
+                          alt="Planning Image"
                           field="planningImage"
                           width={400}
                           height={300}

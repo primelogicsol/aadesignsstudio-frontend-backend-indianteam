@@ -297,6 +297,7 @@ function renderFallbackView(category: any, item: any, subitem: any, params: Page
       description: subitem.planningWork?.description || "",
       features: Array.isArray(subitem.planningWork?.features) ? subitem.planningWork.features : [],
     },
+    planningImage: subitem.planningImage || "/planningImage.jpg",
     additionalInfo: subitem.additionalInfo || "",
     additionalFeatures: Array.isArray(subitem.additionalFeatures) ? subitem.additionalFeatures : [],
     tabContent: {
@@ -346,6 +347,7 @@ function renderFallbackView(category: any, item: any, subitem: any, params: Page
           </div>
         </div>
       </div>
+
 
       <ServiceDetailBody serviceData={serviceData} />
     </div>
