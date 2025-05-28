@@ -111,15 +111,7 @@ export function NavbarClient({ categories }: NavbarClientProps) {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-4">
-              <Link
-                href="/"
-                className={`px-3 py-2 text-sm font-medium transition-all duration-300 ${scrolled
-                  ? "text-white hover:text-gray-200 transform hover:-translate-y-0.5"
-                  : "text-gray-900 hover:text-gray-600"
-                  }`}
-              >
-                Home
-              </Link>
+              
 
               {categories.map((category) => (
                 <div
@@ -156,6 +148,15 @@ export function NavbarClient({ categories }: NavbarClientProps) {
               >
                 Portfolio
               </Link>
+
+              <Link
+                href="/get-started"
+                className={`block px-3 py-2 text-base font-medium ${scrolled ? "text-white hover:bg-[#004db3]" : "text-gray-900 hover:bg-gray-50"
+                  }`}
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Get Started
+              </Link>
             </div>
           </div>
 
@@ -184,8 +185,8 @@ export function NavbarClient({ categories }: NavbarClientProps) {
         <div
           key={`dropdown-${category._id}`}
           className={`absolute left-0 w-full bg-white shadow-lg z-50 transition-all duration-300 border border-gray-200 ${activeCategory === category._id
-              ? "opacity-100 visible transform translate-y-0 shadow-[inset_0_4px_6px_-4px_rgba(0,0,0,0.25)]"
-              : "opacity-0 invisible transform -translate-y-2"
+            ? "opacity-100 visible transform translate-y-0 shadow-[inset_0_4px_6px_-4px_rgba(0,0,0,0.25)]"
+            : "opacity-0 invisible transform -translate-y-2"
             }`}
 
           onMouseEnter={() => handleMouseEnter(category._id)}
@@ -291,14 +292,7 @@ export function NavbarClient({ categories }: NavbarClientProps) {
       {mobileMenuOpen && (
         <div className={`md:hidden ${scrolled ? "bg-[#003087]" : "bg-white"}`}>
           <div className="space-y-1 px-2 pb-3 pt-2">
-            <Link
-              href="/"
-              className={`block px-3 py-2 text-base font-medium ${scrolled ? "text-white hover:bg-[#004db3]" : "text-gray-900 hover:bg-gray-50"
-                }`}
-              onClick={() => setMobileMenuOpen(false)}
-            >
-              Home
-            </Link>
+
 
             {categories.map((category) => (
               <MobileCategory
