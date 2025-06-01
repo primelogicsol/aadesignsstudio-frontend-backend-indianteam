@@ -43,7 +43,7 @@ export default function ServiceAgreement({ agreementData, buyerName = "", onUpda
           <div>
             <h3 className="font-semibold text-base mb-2">1. SCOPE OF SERVICES</h3>
             <p>
-              Prime Logic Solutions ("Provider") agrees to provide the Client with software development services as
+              AA Design Studio ("Provider") agrees to provide the Client with software development services as
               outlined in the Statement of Requirements and Estimate. The services include design, development, testing,
               and deployment of the software solution according to the specifications agreed upon by both parties.
             </p>

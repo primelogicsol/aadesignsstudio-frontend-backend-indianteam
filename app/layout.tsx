@@ -6,6 +6,7 @@ import { Navbar } from "@/components/navbar/navbar"
 import { unstable_noStore } from "next/cache"
 import Footer from "@/components/Footer/Footer"
 
+
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
@@ -24,6 +25,9 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="../public/favicon.ico" />
+      </head>
       <body className={inter.className}>
         <Navbar />
         <div className="min-h-screen bg-gray-50">{children}</div>

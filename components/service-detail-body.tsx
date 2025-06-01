@@ -338,7 +338,7 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
               </div>
 
               {/* Download Buttons */}
-              <div className={`${styles.servicesDetailsSidebarSingle} ${styles.servicesDetailsButtonBox}`}>
+              {/* <div className={`${styles.servicesDetailsSidebarSingle} ${styles.servicesDetailsButtonBox}`}>
                 <div className={styles.btnOne}>
                   <Link href="#">
                     Download Doc <Download size={16} className="ml-2 inline" />
@@ -349,7 +349,7 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
                     Download PDF <FileText size={16} className="ml-2 inline" />
                   </Link>
                 </div>
-              </div>
+              </div> */}
 
               {/* Help Box */}
               <div className={`${styles.servicesDetailsSidebarSingle} ${styles.servicesDetailsContactBox}`}>
@@ -360,7 +360,7 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
                 <div className={styles.number}>
                   <Link href="tel:6665559990">
                     <Phone size={20} className="mr-2 inline" />
-                    666-555-999-00
+                    +1 (234) 567-890
                   </Link>
                 </div>
               </div>

@@ -43,6 +43,7 @@ interface Subitem {
     features?: string[]
     status?: string
   }
+  planningImage?: string
   additionalInfo?: string
   additionalFeatures?: string[]
   tabContent?: {
@@ -835,7 +836,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                       <div className={styles.servicesDetailsTextBox2Img}>
                         <EditableImage
                           src={contentData.planningImage}
-                          alt={formData.label}
+                          alt="planning work image"
                           field="planningImage"
                           width={400}
                           height={300}

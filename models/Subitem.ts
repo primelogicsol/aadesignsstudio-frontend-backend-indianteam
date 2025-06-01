@@ -33,6 +33,7 @@ const SubitemSchema = new mongoose.Schema(
       features: [String],
       image: String,
     },
+    planningImage: String,
     additionalInfo: String,
     additionalFeatures: [String],
     tabContent: {

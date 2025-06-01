@@ -115,7 +115,7 @@ export const Footer = () => {
           <div className="md:w-2/5 text-center md:text-left">
             <h3 className="text-lg text-white font-semibold">Stay Updated</h3>
             <p className="text-sm max-w-md">
-              Subscribe to our newsletter for the latest updates on Prime Logic Solutions.
+              Subscribe to our newsletter for the latest updates on AA Design Studio.
             </p>
           </div>
 
@@ -140,7 +140,7 @@ export const Footer = () => {
           <p className="text-sm">© 2025 AA Design Studio. All rights reserved.</p>
 
           {/* Center - Powered By */}
-          <p className="text-sm">Powered and Maintained by Prime Logic Solutions USA</p>
+          <p className="text-sm">Powered and Maintained by AA Design Studio USA</p>
 
           {/* Right - Terms & Privacy */}
           <div className="flex flex-wrap justify-center md:justify-end gap-4 text-sm">
