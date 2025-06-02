@@ -10,7 +10,7 @@ export const designTrendsFallbackData: DesignTrendResponse = {
       title: "Neomorphism in UI Design",
       description:
         "Exploring the evolution of skeuomorphism into a modern, subtle design approach that combines flat design with realistic elements.",
-      image: "/placeholder.svg?key=zxkaw",
+      image: "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740",
       category: "UI/UX",
       date: "June 15, 2023",
       author: "Alex Morgan",
@@ -24,7 +24,7 @@ export const designTrendsFallbackData: DesignTrendResponse = {
       title: "Dark Mode Everywhere",
       description:
         "How dark mode has evolved from a developer preference to a mainstream design choice across platforms and applications.",
-      image: "/sleek-dark-dashboard.png",
+      image: "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740",
       category: "UI/UX",
       date: "May 28, 2023",
       author: "Jamie Wilson",
@@ -37,7 +37,7 @@ export const designTrendsFallbackData: DesignTrendResponse = {
       title: "Glassmorphism: Transparency & Blur",
       description:
         "The rise of glass-like interfaces with transparency, blur effects and subtle borders that create depth and hierarchy.",
-      image: "/frosted-ui.png",
+      image: "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740",
       category: "Visual Design",
       date: "April 10, 2023",
       author: "Taylor Reed",
@@ -50,7 +50,7 @@ export const designTrendsFallbackData: DesignTrendResponse = {
       title: "3D Elements in Web Design",
       description:
         "How 3D elements are being integrated into web interfaces to create immersive and engaging user experiences.",
-      image: "/futuristic-web-interface.png",
+      image: "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740",
       category: "Web Design",
       date: "March 22, 2023",
       author: "Jordan Lee",
@@ -63,7 +63,7 @@ export const designTrendsFallbackData: DesignTrendResponse = {
       title: "Micro-interactions: Small Details, Big Impact",
       description:
         "The importance of subtle animations and feedback in creating intuitive and delightful user experiences.",
-      image: "/playful-button-interaction.png",
+      image: "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740",
       category: "Interaction Design",
       date: "February 15, 2023",
       author: "Casey Kim",
@@ -75,7 +75,7 @@ export const designTrendsFallbackData: DesignTrendResponse = {
       id: "6",
       title: "Minimalist Typography Trends",
       description: "Exploring how clean, bold typography is becoming a central design element in modern interfaces.",
-      image: "/simple-statement.png",
+      image: "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740",
       category: "Typography",
       date: "January 30, 2023",
       author: "Riley Johnson",
@@ -87,7 +87,7 @@ export const designTrendsFallbackData: DesignTrendResponse = {
       id: "7",
       title: "Asymmetric Layouts",
       description: "Breaking the grid with intentional asymmetry to create dynamic, engaging layouts that stand out.",
-      image: "/placeholder.svg?height=300&width=600&query=asymmetric%20layout%20design",
+      image: "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740",
       category: "Layout Design",
       date: "January 12, 2023",
       author: "Morgan Smith",
@@ -100,7 +100,7 @@ export const designTrendsFallbackData: DesignTrendResponse = {
       title: "Immersive Color Gradients",
       description:
         "How vibrant, multi-toned gradients are being used to create depth and visual interest in digital interfaces.",
-      image: "/placeholder.svg?height=300&width=600&query=color%20gradients%20design",
+      image: "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740",
       category: "Color Theory",
       date: "December 5, 2022",
       author: "Sam Rivera",
@@ -113,7 +113,7 @@ export const designTrendsFallbackData: DesignTrendResponse = {
       title: "Voice User Interfaces",
       description:
         "The evolution of voice UI and how designers are creating experiences for conversation-based interactions.",
-      image: "/placeholder.svg?height=300&width=600&query=voice%20user%20interface",
+      image: "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740",
       category: "Emerging Tech",
       date: "November 18, 2022",
       author: "Alex Morgan",

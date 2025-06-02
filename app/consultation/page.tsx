@@ -57,63 +57,64 @@ export default function Appointment() {
   })
 
   const onSubmit = async (data: ConsultationFormData) => {
-    setIsLoading(true)
 
-    try {
-      // Combine date and time
-      const combinedDateTime = data.date && data.time ? `${data.date}T${data.time}` : data.date
+    alert("backend is not implemented, please contact the backend team to implement the API for consultation request.")
 
-      const formDataToSubmit = {
-        ...data,
-        bookingDate: combinedDateTime,
-      }
+    // try {
+    //   // Combine date and time
+    //   const combinedDateTime = data.date && data.time ? `${data.date}T${data.time}` : data.date
 
-      // Make sure the API URL is properly set in your environment variables
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}consultation/requestAConsultation`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formDataToSubmit),
-        // Add this to ensure cookies are sent with the request if needed
-        credentials: "include",
-      })
+    //   const formDataToSubmit = {
+    //     ...data,
+    //     bookingDate: combinedDateTime,
+    //   }
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        setResponseMessage(errorData.message || "An error occurred while submitting the form.")
-        toast.error(errorData.message || "An error occurred while submitting the form.")
-        throw new Error(`API error: ${response.status}`)
-      }
+    //   // Make sure the API URL is properly set in your environment variables
+    //   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}consultation/requestAConsultation`, {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(formDataToSubmit),
+    //     // Add this to ensure cookies are sent with the request if needed
+    //     credentials: "include",
+    //   })
 
-      const responseData = await response.json()
+    //   if (!response.ok) {
+    //     const errorData = await response.json()
+    //     setResponseMessage(errorData.message || "An error occurred while submitting the form.")
+    //     toast.error(errorData.message || "An error occurred while submitting the form.")
+    //     throw new Error(`API error: ${response.status}`)
+    //   }
 
-      if (responseData.success) {
-        setIsSubmitted(true)
-        setResponseMessage(responseData.message)
+    //   const responseData = await response.json()
 
-        // Clear the form
-        reset()
+    //   if (responseData.success) {
+    //     setIsSubmitted(true)
+    //     setResponseMessage(responseData.message)
 
-        // Show success toast notification
-        toast.success("Consultation request submitted successfully!")
+    //     // Clear the form
+    //     reset()
 
-        // Reset success message after 8 seconds
-        setTimeout(() => {
-          setIsSubmitted(false)
-        }, 8000)
-      } else {
-        setResponseMessage(responseData.message || "There was an error submitting your request. Please try again.")
+    //     // Show success toast notification
+    //     toast.success("Consultation request submitted successfully!")
 
-        // Show error toast
-      }
-    } catch (error) {
-      console.error("Error submitting consultation request:", error)
-      setResponseMessage("An unexpected error occurred. Please try again.")
+    //     // Reset success message after 8 seconds
+    //     setTimeout(() => {
+    //       setIsSubmitted(false)
+    //     }, 8000)
+    //   } else {
+    //     setResponseMessage(responseData.message || "There was an error submitting your request. Please try again.")
 
-      // Show error toast for exceptions
-      // toast.error("An unexpected error occurred. Please try again."+ error.message)
-    } finally {
-      setIsLoading(false)
-    }
+    //     // Show error toast
+    //   }
+    // } catch (error) {
+    //   console.error("Error submitting consultation request:", error)
+    //   setResponseMessage("An unexpected error occurred. Please try again.")
+
+    //   // Show error toast for exceptions
+    //   // toast.error("An unexpected error occurred. Please try again."+ error.message)
+    // } finally {
+    //   setIsLoading(false)
+    // }
   }
 
   return (
@@ -121,8 +122,8 @@ export default function Appointment() {
       {/* Background Image with Next.js Image component */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="relative w-full h-full">
-          {/* <Image
-            src="/assets/4.png"
+          <Image
+            src="3.png"
             alt="Enterprise background"
             fill
             priority
@@ -131,7 +132,7 @@ export default function Appointment() {
               objectFit: "cover",
               objectPosition: "center",
             }}
-          /> */}
+          />
           <div className="absolute inset-0 bg-[#111827] bg-opacity-80"></div>
         </div>
       </div>
@@ -162,7 +163,7 @@ export default function Appointment() {
               <ContactCard
                 icon={<Mail className="w-6 h-6 text-white" />}
                 title="WRITE A QUICK MAIL"
-                detail="b2b@dekoshurcrafts.com"
+                detail="support@aadesignstudio.com"
               />
               <ContactCard
                 icon={<MapPin className="w-6 h-6 text-white" />}

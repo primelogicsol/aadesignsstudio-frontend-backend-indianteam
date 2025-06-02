@@ -330,20 +330,20 @@ function renderFallbackView(category: any, item: any, subitem: any, params: Page
     <div>
       <div className="bg-gray-100 py-4">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-2 text-sm text-gray-500">
-            <Link href="/" className="hover:text-gray-700">
-              Home
-            </Link>
-            <span>/</span>
-            <Link href={`/${params.category}`} className="hover:text-gray-700">
-              {category.name}
-            </Link>
-            <span>/</span>
-            <Link href={`/${params.category}/${params.item}`} className="hover:text-gray-700">
-              {item.label}
-            </Link>
-            <span>/</span>
-            <span className="font-medium text-gray-900">{subitem.label}</span>
+          <div className="flex items-center gap-2 text-xs text-gray-500">
+        <Link href="/" className="hover:text-gray-700">
+          Home
+        </Link>
+        <span>/</span>
+        <Link href={`/${params.category}`} className="hover:text-gray-700">
+          {category.name}
+        </Link>
+        <span>/</span>
+        <Link href={`/${params.category}/${params.item}`} className="hover:text-gray-700">
+          {item.label}
+        </Link>
+        <span>/</span>
+        <span className="font-medium text-gray-900">{subitem.label}</span>
           </div>
         </div>
       </div>
