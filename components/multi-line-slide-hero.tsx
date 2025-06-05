@@ -12,10 +12,6 @@ type Slide = {
   bgImage: string
 }
 
-interface MultiLineSlideHeroProps {
-  slides?: Slide[]
-}
-
 export function MultiLineSlideHero() {
   const slides: Slide[] = [
     {
@@ -47,7 +43,6 @@ export function MultiLineSlideHero() {
     },
   ]
 
-  
   const [currentSlide, setCurrentSlide] = useState<number>(0)
   const slideCount = slides.length
   const autoSlideDelay = 7000
@@ -81,8 +76,8 @@ export function MultiLineSlideHero() {
   return (
     <div className="bg-[#f2efec]">
       <div
-        className="relative h-[500px] sm:h-[450px] md:h-[500px] lg:h-[600px] overflow-hidden"
-        style={{ borderRadius: "0 0 100px 0" }}
+        className="relative h-[320px] xs:h-[380px] sm:h-[450px] md:h-[500px] lg:h-[600px] overflow-hidden"
+        style={{ borderRadius: "0 0 40px 0", }}
       >
         {slides.map((slide, index) => {
           const isActive = index === currentSlide
@@ -100,19 +95,22 @@ export function MultiLineSlideHero() {
                   backgroundImage: `url(${slide.bgImage})`,
                   opacity: isActive ? 1 : 0,
                   transform: isActive ? "translateX(0)" : "translateX(20%)",
-                  borderRadius: "0 0 100px 0",
+                  borderRadius: "0 0 40px 0",
                 }}
               ></div>
 
               {/* Blue Panel (Fades in after delay) */}
               <div
-                className="absolute top-0 h-full text-white p-6 sm:p-8 flex flex-col justify-center transition-all duration-1000"
+                className="absolute top-0 left-0 h-full text-white p-4 xs:p-6 sm:p-8 flex flex-col justify-center transition-all duration-1000"
                 style={{
                   backgroundColor: "#003087",
-                  width: "100%",
+                  width: "90vw",
+                  maxWidth: "95vw",
+                  minWidth: "220px",
                   maxWidth: "450px",
                   transform: animateState.showBlueBox ? "translateX(0)" : "translateX(-20%)",
                   opacity: animateState.showBlueBox ? 1 : 0,
+                  borderRadius: "0 0 40px 0",
                 }}
               >
                 {/* Text (Fades in after delay) */}
@@ -123,11 +121,11 @@ export function MultiLineSlideHero() {
                     transition: "opacity 1s ease, transform 1s ease",
                   }}
                 >
-                  <h2 className="font-bold mb-3 text-xl sm:text-2xl md:text-3xl">{slide.heading}</h2>
-                  <p className="mb-3 text-sm sm:text-base">{slide.description}</p>
+                  <h2 className="font-bold mb-2 xs:mb-3 text-base xs:text-lg sm:text-2xl md:text-3xl">{slide.heading}</h2>
+                  <p className="mb-2 xs:mb-3 text-xs xs:text-sm sm:text-base">{slide.description}</p>
                   <Link
                     href={slide.linkHref}
-                    className="underline text-base sm:text-lg hover:text-gray-200 transition-colors"
+                    className="underline text-sm xs:text-base sm:text-lg hover:text-gray-200 transition-colors"
                   >
                     {slide.linkText}
                   </Link>
@@ -139,13 +137,13 @@ export function MultiLineSlideHero() {
       </div>
 
       {/* Bottom Navigation */}
-      <div className="flex flex-col sm:flex-row justify-between items-center py-4 px-6">
+      <div className="flex flex-col sm:flex-row justify-between items-center py-3 xs:py-4 px-3 xs:px-6 gap-2">
         {/* Slide Counter & Progress Bar */}
-        <div className="flex items-center gap-2">
-          <span className="font-bold text-lg sm:text-xl text-[#003087]">
+        <div className="flex items-center gap-2 w-full sm:w-auto">
+          <span className="font-bold text-base xs:text-lg sm:text-xl text-[#003087]">
             {String(currentSlide + 1).padStart(2, "0")}
           </span>
-          <div className="w-28 sm:w-36 h-1 bg-gray-300 rounded-full">
+          <div className="flex-1 sm:flex-none w-20 xs:w-28 sm:w-36 h-1 bg-gray-300 rounded-full">
             <div
               className="h-full rounded-full transition-all duration-300 ease-in-out"
               style={{
@@ -154,21 +152,21 @@ export function MultiLineSlideHero() {
               }}
             ></div>
           </div>
-          <span className="font-bold text-lg sm:text-xl text-[#003087]">{String(slideCount).padStart(2, "0")}</span>
+          <span className="font-bold text-base xs:text-lg sm:text-xl text-[#003087]">{String(slideCount).padStart(2, "0")}</span>
         </div>
 
         {/* Navigation Buttons */}
-        <div className="flex gap-3 mt-4 sm:mt-0">
+        <div className="flex gap-2 xs:gap-3 mt-2 sm:mt-0">
           <button
             onClick={() => setCurrentSlide((prev) => (prev - 1 + slideCount) % slideCount)}
-            className="text-lg w-10 sm:w-12 h-10 sm:h-12 rounded-full border border-gray-400 flex items-center justify-center bg-white shadow-md hover:bg-[#003087] hover:text-white transition-all duration-300 ease-in-out"
+            className="text-base xs:text-lg w-8 xs:w-10 sm:w-12 h-8 xs:h-10 sm:h-12 rounded-full border border-gray-400 flex items-center justify-center bg-white shadow-md hover:bg-[#003087] hover:text-white transition-all duration-300 ease-in-out"
             aria-label="Previous slide"
           >
             &#60;
           </button>
           <button
             onClick={() => setCurrentSlide((prev) => (prev + 1) % slideCount)}
-            className="text-lg w-10 sm:w-12 h-10 sm:h-12 rounded-full border border-gray-400 flex items-center justify-center bg-white shadow-md hover:bg-[#003087] hover:text-white transition-all duration-300 ease-in-out"
+            className="text-base xs:text-lg w-8 xs:w-10 sm:w-12 h-8 xs:h-10 sm:h-12 rounded-full border border-gray-400 flex items-center justify-center bg-white shadow-md hover:bg-[#003087] hover:text-white transition-all duration-300 ease-in-out"
             aria-label="Next slide"
           >
             &#62;

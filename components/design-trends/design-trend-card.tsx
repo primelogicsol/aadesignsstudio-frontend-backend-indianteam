@@ -114,10 +114,10 @@ export function DesignTrendCard({ trend, featured = false, className, onClick }:
           </div>
         )}
 
-        {hasValidUrl && (
-          <Button variant="ghost" className="p-0 h-auto text-blue-600 hover:text-blue-800 hover:bg-transparent">
-            Read More <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+        {hasValidUrl && (<></>
+          // <Button variant="ghost" className="p-0 h-auto text-blue-600 hover:text-blue-800 hover:bg-transparent">
+          //   Read More <ArrowRight className="ml-2 h-4 w-4" />
+          // </Button>
         )}
       </CardFooter>
     </Card>

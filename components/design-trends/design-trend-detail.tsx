@@ -60,7 +60,7 @@ export function DesignTrendDetail({ id, initialData, endpoint = "/api/design-tre
           content: `<p>${fallbackTrend.description}</p><p>Detailed content unavailable offline.</p>`,
           authorInfo: {
             name: fallbackTrend.author || "Unknown Author",
-            avatar: `/placeholder.svg?height=100&width=100&query=${encodeURIComponent(fallbackTrend.author || "author")}`,
+            avatar: `https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740?height=100&width=100&query=${encodeURIComponent(fallbackTrend.author || "author")}`,
             bio: `Expert in ${fallbackTrend.category}`,
           },
         })
@@ -166,7 +166,7 @@ export function DesignTrendDetail({ id, initialData, endpoint = "/api/design-tre
                     <Image
                       src={
                         trend.authorInfo?.avatar ||
-                        `/placeholder.svg?height=24&width=24&query=${encodeURIComponent(trend.author)}`
+                        `https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740?height=24&width=24&query=${encodeURIComponent(trend.author)}`
                       }
                       alt={trend.author}
                       width={24}
@@ -189,7 +189,7 @@ export function DesignTrendDetail({ id, initialData, endpoint = "/api/design-tre
             {/* Featured Image */}
             <div className="mb-8 overflow-hidden rounded-xl">
               <Image
-                src={trend.image || "/placeholder.svg"}
+                src={trend.image || "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740"}
                 alt={trend.title}
                 width={800}
                 height={450}
@@ -223,7 +223,7 @@ export function DesignTrendDetail({ id, initialData, endpoint = "/api/design-tre
                 <div className="flex items-center gap-4">
                   <div className="h-16 w-16 overflow-hidden rounded-full">
                     <Image
-                      src={trend.authorInfo.avatar || "/placeholder.svg"}
+                      src={trend.authorInfo.avatar || "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740"}
                       alt={trend.authorInfo.name}
                       width={64}
                       height={64}
@@ -289,7 +289,7 @@ export function DesignTrendDetail({ id, initialData, endpoint = "/api/design-tre
                     <div key={relatedTrend.id} className="flex gap-4">
                       <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md">
                         <Image
-                          src={relatedTrend.image || "/placeholder.svg"}
+                          src={relatedTrend.image || "https://img.freepik.com/premium-photo/natural-background-sunset_28898-1.jpg?semt=ais_hybrid&w=740"}
                           alt={relatedTrend.title}
                           width={64}
                           height={64}
