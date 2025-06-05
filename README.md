@@ -3,4 +3,4 @@ vercel hosting
 stable
 stable2
 stable3
-stabl7
+stable7
