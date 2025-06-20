@@ -97,7 +97,7 @@ export default function ContactUsPage() {
             <h3 className="text-lg font-semibold mb-2">Call Us</h3>
             <p className="text-gray-600 mb-4">Mon-Fri from 9am to 6pm</p>
             <a href="tel:+1234567890" className="text-[#003087] font-medium hover:underline">
-              +1 (234) 567-890
+              +1 (916) 699-0091
             </a>
           </div>
 
