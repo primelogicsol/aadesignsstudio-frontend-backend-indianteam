@@ -101,7 +101,7 @@ export default async function ItemLayout({ children, params }: LayoutProps) {
   return (
     <>
       {/* Hero Section first */}
-      {/* <MultiLineSlideHero slides={customSlides} /> */}
+      
 
       {/* SubNavbar after hero */}
       {hasSubitems && (

@@ -10,10 +10,9 @@ export async function POST(request: Request, { params }: { params: { id: string;
     const {
       label,
       href,
-      slug,
-      status,
       content,
       planningWork,
+      planningImage,
       additionalInfo,
       additionalFeatures,
       tabContent,
@@ -64,10 +63,9 @@ export async function POST(request: Request, { params }: { params: { id: string;
       _id: subitemId, // Use the same ID as in the category collection
       label,
       href,
-      slug,
-      status,
       content,
       planningWork,
+      planningImage,
       additionalInfo,
       additionalFeatures,
       tabContent,

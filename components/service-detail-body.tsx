@@ -15,11 +15,11 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
   const [activeTab, setActiveTab] = useState("materials")
 
   // Log the received props for debugging
-  console.log("ServiceDetailBody received props:", serviceData)
+  console.log("ServiceDetailBody received props----------------------------------------------------------:", serviceData)
 
   // Use the data directly from props without adding defaults
   // This ensures we're showing exactly what's in the database
-  const { title, content, planningWork, additionalInfo, additionalFeatures, tabContent } = serviceData
+  const { title, content, planningWork, additionalInfo, planningImage, additionalFeatures, tabContent } = serviceData
 
   return (
     <section className={styles.servicesDetailsPage}>
@@ -61,8 +61,8 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
                   <div className="w-full md:w-5/12">
                     <div className={styles.servicesDetailsTextBox2Img}>
                       <Image
-                        src="/strategic-roadmap.png"
-                        alt="Planning Work"
+                        src={planningImage || "/planningImage.png"}
+                        alt="PlanningImage1234"
                         width={400}
                         height={300}
                         className="w-full h-auto"
@@ -84,7 +84,7 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
                               <div className={styles.icon}>
                                 <Check size={12} />
                               </div>
-                              <div className={styles.text}>
+                              <div className={styles.listitemtext}>
                                 <p>{feature}</p>
                               </div>
                             </li>
@@ -249,7 +249,7 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
                         <div className={styles.servicesDetailsTabContentItem}>
                           <div className={styles.superSupportTabBox}>
                             <div className="w-full">
-                              <div className={styles.superSupportTabBoxForm}>
+                              {/* <div className={styles.superSupportTabBoxForm}>
                                 <form className="comment-one__form contact-form-validated">
                                   <div className="flex flex-col md:flex-row gap-4">
                                     <div className="w-full md:w-6/12">
@@ -272,7 +272,13 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
                                     </button>
                                   </div>
                                 </form>
-                              </div>
+                              </div> */}
+                              <Link
+                                href="/consultation"
+                                className="inline-block px-8 py-4 bg-[#003087] text-[#FFFFFF] rounded-full font-medium hover:bg-gray-100 transition-colors"
+                              >
+                                Contact Us Today
+                              </Link>
                             </div>
                           </div>
                         </div>
@@ -332,7 +338,7 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
               </div>
 
               {/* Download Buttons */}
-              <div className={`${styles.servicesDetailsSidebarSingle} ${styles.servicesDetailsButtonBox}`}>
+              {/* <div className={`${styles.servicesDetailsSidebarSingle} ${styles.servicesDetailsButtonBox}`}>
                 <div className={styles.btnOne}>
                   <Link href="#">
                     Download Doc <Download size={16} className="ml-2 inline" />
@@ -343,18 +349,18 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
                     Download PDF <FileText size={16} className="ml-2 inline" />
                   </Link>
                 </div>
-              </div>
+              </div> */}
 
               {/* Help Box */}
               <div className={`${styles.servicesDetailsSidebarSingle} ${styles.servicesDetailsContactBox}`}>
                 <div className={styles.title}>
                   <h2>Need Any Help</h2>
                 </div>
-                <p>{additionalInfo || "Contact us for assistance with any questions or concerns you may have."}</p>
+                <p>{"Contact us for assistance with any questions or concerns you may have."}</p>
                 <div className={styles.number}>
                   <Link href="tel:6665559990">
                     <Phone size={20} className="mr-2 inline" />
-                    666-555-999-00
+                    +1 (234) 567-890
                   </Link>
                 </div>
               </div>
@@ -368,7 +374,7 @@ export default function ServiceDetailBody({ serviceData }: ServiceDetailBodyProp
                         <div className={styles.icon}>
                           <Check size={12} />
                         </div>
-                        <div className={styles.text}>
+                        <div className={styles.listitemtext}>
                           <p>{feature}</p>
                         </div>
                       </li>

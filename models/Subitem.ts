@@ -31,25 +31,31 @@ const SubitemSchema = new mongoose.Schema(
       title: String,
       description: String,
       features: [String],
+      image: String,
     },
+    planningImage: String,
     additionalInfo: String,
     additionalFeatures: [String],
     tabContent: {
       materials: {
         title: String,
         content: String,
+        image: String,
       },
       design: {
         title: String,
         content: String,
+        image: String,
       },
       care: {
         title: String,
         content: String,
+        image: String,
       },
       support: {
         title: String,
         content: String,
+        image: String,
       },
     },
     body: String,

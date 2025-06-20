@@ -111,9 +111,7 @@ export function HeroCarousel({
               <h1 className="text-4xl md:text-5xl font-bold mb-4">{title}</h1>
               <h2 className="text-xl md:text-2xl font-semibold mb-4 text-gray-200">{subtitle}</h2>
               <p className="text-gray-200 mb-8">{description}</p>
-              <Button size="lg" className="bg-[#ff5e14] hover:bg-[#e04e00] text-white border-none">
-                Learn More
-              </Button>
+              
             </div>
           </div>
         </div>

@@ -54,14 +54,20 @@
   }
   
   .servicesDetailsTextBox2Content .title h2 {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 34px;
     font-weight: 700;
     margin-bottom: 15px;
   }
   
   .servicesDetailsTextBox2Content .text p {
+    margin-top: 0px;
+    padding-top: 0;
     margin-bottom: 20px;
+    font-size: large;
+  }
+  .listitemtext{
+    font-size: 15px;
   }
   
   .servicesDetailsTextBox2Content ul {
@@ -70,8 +76,9 @@
   
   .servicesDetailsTextBox2Content ul li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 10px;
+    padding-top: 1px;
   }
   
   .servicesDetailsTextBox2Content ul li .icon {
@@ -83,6 +90,8 @@
     background-color: #003087;
     color: #fff;
     border-radius: 50%;
+    margin-top: 5px;
+    padding: 3px;
     margin-right: 10px;
   }
   
@@ -100,7 +109,7 @@
   
   .servicesDetailsTextBox3 ul li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 10px;
   }
   
@@ -112,6 +121,7 @@
     width: 20px;
     background-color: #003087;
     color: #fff;
+    margin-top: 2px;
     border-radius: 50%;
     margin-right: 10px;
   }

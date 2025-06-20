@@ -16,6 +16,7 @@ export interface ServiceDetail {
   title: string
   content: string
   planningWork: PlanningWork
+  planningImage?:string
   additionalInfo: string
   additionalFeatures: string[]
   tabContent: {

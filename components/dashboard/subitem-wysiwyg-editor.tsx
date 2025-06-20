@@ -43,6 +43,7 @@ interface Subitem {
     features?: string[]
     status?: string
   }
+  planningImage?: string
   additionalInfo?: string
   additionalFeatures?: string[]
   tabContent?: {
@@ -110,6 +111,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
     planningDescription: string
     planningFeatures: string[]
     planningStatus: string
+    planningImage:string
     additionalInfo: string
     additionalFeatures: string[]
     materialsTabTitle: string
@@ -133,6 +135,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
     planningDescription: "",
     planningFeatures: [],
     planningStatus: "draft",
+    planningImage:'/PlanningImage.jpg',
     additionalInfo: "",
     additionalFeatures: [],
     materialsTabTitle: "",
@@ -176,6 +179,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
         planningDescription: subitem.planningWork?.description || "",
         planningFeatures: subitem.planningWork?.features || [],
         planningStatus: subitem.planningWork?.status || "draft",
+        planningImage:subitem.planningImage || "/PlanningImage.jpg",
         additionalInfo: subitem.additionalInfo || "",
         additionalFeatures: subitem.additionalFeatures || [],
         materialsTabTitle: subitem.tabContent?.materials?.title || "",
@@ -340,6 +344,7 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
           features: contentData.planningFeatures,
           status: contentData.planningStatus,
         },
+        planningImage:contentData.planningImage,
         additionalInfo: contentData.additionalInfo,
         additionalFeatures: contentData.additionalFeatures,
         tabContent: {
@@ -830,8 +835,8 @@ export function SubitemWysiwygEditor({ subitem, categories }: SubitemWysiwygEdit
                     <div className="w-full md:w-5/12">
                       <div className={styles.servicesDetailsTextBox2Img}>
                         <EditableImage
-                          src="/strategic-roadmap.png"
-                          alt="Planning Work"
+                          src={contentData.planningImage}
+                          alt="planning work image"
                           field="planningImage"
                           width={400}
                           height={300}

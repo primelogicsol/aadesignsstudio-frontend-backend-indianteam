@@ -54,7 +54,7 @@ export default function Home() {
   }, [])
 
   const filteredProjects = filter === "all" ? projects : projects.filter((p) => p.category === filter)
- 
+
   const handleFilterChange = (category: string) => {
     setFilter(category)
   }
@@ -146,11 +146,11 @@ export default function Home() {
       </div>
 
       {/* Services section */}
-      <section className={`${styles1.services_section_outer_container} py-12 md:py-16 lg:py-20`} data-aos="fade-in">
+      {/* <section className={`${styles1.services_section_outer_container} py-16 ml-20 md:py-16 lg:py-20`} data-aos="fade-in">
         <div className={`${styles1.services_section_inner_container} container mx-auto`}>
           <div className="flex flex-col md:flex-row gap-8">
             <div className="w-full md:w-1/2 order-2 md:order-1">
-              <h2 className={`${styles1.services_section_heading} `}>Services</h2>
+              <h1 className={`${styles1.services_section_heading} `}>Services</h1>
               <div
                 className={`${styles1.services_section_pseudoheading}  text-2xl md:text-3xl lg:text-4xl`}
               >
@@ -185,16 +185,15 @@ export default function Home() {
               </ul>
             </div>
 
-            <div className="w-full md:w-1/2 order-1 md:order-2 flex items-center justify-center " >
-              <div className={`relative mx-auto ${styles1.services_section_image} `}>
-                {/* Image preview */}
-                {!isPlaying && (
+            <div className="w-full md:w-1/2 order-1 md:order-2 flex items-stretch ml-40">
+              <div className={`relative w-full h-full ${styles1.services_section_image}`}>
+                {!isPlaying ? (
                   <>
                     <img
                       src="/image.png"
                       alt="House"
-                      className="w-full h-auto max-w-full"
-                      style={{ borderRadius: "0 70px 0 70px" }}
+                      className="object-cover"
+                      style={{ borderRadius: "0 70px 0 70px", width: "100%", height: "100%" }}
                     />
                     <button
                       onClick={handlePlay}
@@ -210,15 +209,13 @@ export default function Home() {
                       </svg>
                     </button>
                   </>
-                )}
-
-                {/* Video appears centered and replaces the image */}
-                {isPlaying && (
+                ) : (
                   <video
-                    id="services-video"
-                    className="w-full h-auto max-w-full rounded-[0_70px_0_70px] mx-auto"
-
+                    className="w-full h-full object-cover rounded-[0_70px_0_70px]"
                     autoPlay
+                    muted
+                    loop
+                    playsInline
                   >
                     <source src="/home.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
@@ -228,7 +225,79 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
+
+      <section
+  className={`${styles1.services_section_outer_container} py-12 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-20`}
+  data-aos="fade-in"
+>
+  <div className={`${styles1.services_section_inner_container} container mx-auto`}>
+    <div className="flex flex-col md:flex-row gap-10 md:gap-8">
+      {/* Text Content */}
+      <div className="w-full md:w-1/2 order-2 md:order-1">
+        <h1 className={`${styles1.services_section_heading}`}>Services</h1>
+        <div className={`${styles1.services_section_pseudoheading} text-2xl md:text-3xl lg:text-4xl`}>
+          Thought out to the smallest detail
+        </div>
+        <ul className={`${styles1.services_section_list} mt-6 md:mt-8 space-y-3`}>
+          {[
+            '01. Logo Design',
+            '02. Business Card Design',
+            '03. Stationery Design',
+            '04. Letterhead Design',
+            '05. Brouchers',
+          ].map((item, index) => (
+            <li key={index} className={styles1.services_section_item}>
+              <a className={styles1.services_section_link} href="projects-detail.html">
+                {item}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      {/* Media Content */}
+      <div className="w-full md:w-1/2 order-1 md:order-2 flex items-center">
+        <div className={`relative w-full h-64 sm:h-80 md:h-full ${styles1.services_section_image}`}>
+          {!isPlaying ? (
+            <>
+              <img
+              src="/image.png"
+              alt="House"
+              style={{ borderRadius: "0 70px 0 70px", width: "100%", height: "100%" }}
+              />
+              <button
+              onClick={handlePlay}
+              className="absolute inset-0 flex items-center justify-center"
+              aria-label="Play video"
+              >
+              <svg
+                className="w-16 h-16 text-white bg-black bg-opacity-60 rounded-full p-3"
+                viewBox="0 0 100 100"
+                fill="white"
+              >
+                <polygon points="40,30 70,50 40,70" />
+              </svg>
+              </button>
+            </>
+          ) : (
+            <video
+              className="w-full h-full object-cover rounded-[0_70px_0_70px]"
+              autoPlay
+              muted
+              loop
+              playsInline
+            >
+              <source src="/home.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Statistics section */}
       <div className={`${styles2.statistics_outer_container}  py-12 md:py-16`} data-aos="fade-in">
@@ -238,7 +307,7 @@ export default function Home() {
               <div
                 className={`${styles2.statistics_item_value} text-4xl md:text-5xl lg:text-6xl text-yellow-500 font-bold mr-4`}
               >
-                <span ref={(el) => (numbersRef.current[0] = el)} className="__js_number" data-end-value="20" style={{color:"#003087"}}>
+                <span ref={(el) => (numbersRef.current[0] = el)} className="__js_number" data-end-value="20" style={{ color: "#003087" }}>
                   0
                 </span>
               </div>
@@ -252,7 +321,7 @@ export default function Home() {
               <div
                 className={`${styles2.statistics_item_value} text-4xl md:text-5xl lg:text-6xl text-yellow-500 font-bold mr-4`}
               >
-                <span ref={(el) => (numbersRef.current[1] = el)} className="__js_number" data-end-value="7" style={{color:"#003087"}}>
+                <span ref={(el) => (numbersRef.current[1] = el)} className="__js_number" data-end-value="7" style={{ color: "#003087" }}>
                   0
                 </span>
               </div>
@@ -266,7 +335,7 @@ export default function Home() {
               <div
                 className={`${styles2.statistics_item_value} text-4xl md:text-5xl lg:text-6xl text-yellow-500 font-bold mr-4`}
               >
-                <span ref={(el) => (numbersRef.current[2] = el)} className="__js_number" data-end-value="100" style={{color:"#003087"}}>
+                <span ref={(el) => (numbersRef.current[2] = el)} className="__js_number" data-end-value="100" style={{ color: "#003087" }}>
                   0
                 </span>
               </div>
